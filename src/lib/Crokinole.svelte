@@ -43,11 +43,43 @@
 </script>
 
 <section class="crokinole">
-	<h1>Crokinole</h1>
+	<div>
+		<div>
+			<span>Scores</span>
+
+			<div>
+				{players[0].name}
+			</div>
+
+			<div> 
+				{players[0].score}
+			</div>
+
+			<div>
+				{players[1].name}
+			</div>
+
+			<div> 
+				{players[1].score}
+			</div>
+		</div>
+	</div>
+	
+	<div>
+		<div>Current Player: {players[currentPlayer].name}</div>
+		
+		<div>
+			<input type="number" bind:value={scoreInput} step="5">
+			<button on:click={handleAddClick}>Add</button>
+		</div>
+	</div>
 </section>
 
 <style>
 	.crokinole {
-		background-color: rebeccapurple;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
 	}
 </style>
