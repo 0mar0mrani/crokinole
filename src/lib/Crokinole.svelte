@@ -1,5 +1,5 @@
 <script>
-	const players = [];
+	let players = [];
 	let currentPlayer = 0;
 	let scoreInput = 0;
 	let isMenuOpen = false;
@@ -7,7 +7,7 @@
 	function addNewPlayer(nameInput) {
 		const player = {
 			name: nameInput,
-			score: 0
+			score: 0,
 		}
 
 		players.push(player)
@@ -56,6 +56,11 @@
 		isMenuOpen = !isMenuOpen;
 	}
 
+	function handleResetGameClick() {
+		initializeGame();
+		isMenuOpen = !isMenuOpen;
+	}
+
 	function addPointsToCurrentPlayer() {
 		players[currentPlayer].score += scoreInput;
 	}
@@ -79,7 +84,13 @@
 
 	function initializeGame() {
 		currentPlayer = 0;
-		players.forEach(player => player.score = 0);
+
+		for (const player of players) {
+			player.score = 0;
+		}
+
+		// Force render
+		players = players;
 	}
 
 </script>
@@ -117,7 +128,7 @@
 	</div>
 
 	<div class={`crokinole__menu ${isMenuOpen ? 'crokinole__menu--open' : ''}`}>
-		<button class="crokinole__menu-item-button">Reset game</button>
+		<button class="crokinole__menu-item-button" on:click={handleResetGameClick} >Reset game</button>
 
 		<button class="crokinole__menu-item-button">Reset players</button>
 	</div>
