@@ -14,6 +14,9 @@
 	addNewPlayer('Omar');
 	addNewPlayer('Amalie');
 
+	function addPointsToCurrentPlayer() {
+		players[currentPlayer].score += scoreInput;
+	}
 <section class="crokinole">
 	<h1>Crokinole</h1>
 </section>
