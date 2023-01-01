@@ -35,6 +35,13 @@
 		}
 	}
 
+	function initializeGame() {
+		currentPlayer = 0;
+		players.forEach(player => player.score = 0);
+	}
+
+</script>
+
 <section class="crokinole">
 	<h1>Crokinole</h1>
 </section>
