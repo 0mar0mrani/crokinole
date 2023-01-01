@@ -1,3 +1,4 @@
+<script>
 	const players = [];
 	let currentPlayer = 0;
 	let scoreInput = 0;
@@ -13,6 +14,23 @@
 
 	addNewPlayer('Omar');
 	addNewPlayer('Amalie');
+
+	function handleAddClick() {
+		if (scoreInput >= 0) {
+			addPointsToCurrentPlayer();
+			const isWinner = checkIfWinner();
+
+			if (isWinner) {
+				initializeGame();
+			} else {
+				goToNextPlayer();
+			}
+		
+			scoreInput = 0;
+		} else {
+			alert('Please add a number equal or greater than 0')
+		}
+	}
 
 	function addPointsToCurrentPlayer() {
 		players[currentPlayer].score += scoreInput;
