@@ -17,6 +17,15 @@
 	function addPointsToCurrentPlayer() {
 		players[currentPlayer].score += scoreInput;
 	}
+
+	function goToNextPlayer() {
+		if (currentPlayer === players.length - 1) {
+			currentPlayer = 0;
+		} else {
+			currentPlayer += 1;
+		}
+	}
+
 <section class="crokinole">
 	<h1>Crokinole</h1>
 </section>
