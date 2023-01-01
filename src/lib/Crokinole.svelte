@@ -2,6 +2,7 @@
 	const players = [];
 	let currentPlayer = 0;
 	let scoreInput = 0;
+	let isMenuOpen = false;
 
 	function addNewPlayer(nameInput) {
 		const player = {
@@ -49,6 +50,10 @@
 				alert('Please add a number equal or greater than 0')
 			}
 		}
+	}
+
+	function handleMenuButtonClick() {
+		isMenuOpen = !isMenuOpen;
 	}
 
 	function addPointsToCurrentPlayer() {
@@ -110,6 +115,14 @@
 			<button on:click={handleAddClick}>Add</button>
 		</div>
 	</div>
+
+	<div class={`crokinole__menu ${isMenuOpen ? 'crokinole__menu--open' : ''}`}>
+		<button class="crokinole__menu-item-button">Reset game</button>
+
+		<button class="crokinole__menu-item-button">Reset players</button>
+	</div>
+
+	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>Menu</button>
 </section>
 
 <style>
@@ -119,4 +132,40 @@
 		flex-direction: column;
 		justify-content: space-evenly;
 	}
+
+	.crokinole__menu-button {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+	}
+
+	.crokinole__menu {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-color: red;
+		transition: all 0.3s;
+		transform: translateX(100%);
+	}
+
+	.crokinole__menu--open {
+		transform: translateX(0);
+	}
+
+	.crokinole__menu-item-button {
+		font-size: 2rem;
+		border: none;
+		cursor: pointer;
+	}
+
+	.crokinole__menu-button:hover,
+	.crokinole__menu-button:active {
+		background-color: rebeccapurple;
+	}
+
 </style>
