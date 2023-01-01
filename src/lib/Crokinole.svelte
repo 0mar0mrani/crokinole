@@ -26,6 +26,15 @@
 		}
 	}
 
+	function checkIfWinner() {
+		if (players[currentPlayer].score >= 100) {
+			alert(`${players[currentPlayer].name} is the winner with ${players[currentPlayer].score} points`);
+			return true;
+		} else {
+			false;
+		}
+	}
+
 <section class="crokinole">
 	<h1>Crokinole</h1>
 </section>
