@@ -32,6 +32,25 @@
 		}
 	}
 
+	function handleInputKeydown(event) {
+		if (event.key === 'Enter') {
+			if (scoreInput >= 0) {
+			addPointsToCurrentPlayer();
+			const isWinner = checkIfWinner();
+
+			if (isWinner) {
+				initializeGame();
+			} else {
+				goToNextPlayer();
+			}
+		
+			scoreInput = 0;
+			} else {
+				alert('Please add a number equal or greater than 0')
+			}
+		}
+	}
+
 	function addPointsToCurrentPlayer() {
 		players[currentPlayer].score += scoreInput;
 	}
@@ -87,7 +106,7 @@
 		<div>Current Player: {players[currentPlayer].name}</div>
 		
 		<div>
-			<input type="number" bind:value={scoreInput} step="5">
+			<input type="number" bind:value={scoreInput} on:keydown={handleInputKeydown} step="5">
 			<button on:click={handleAddClick}>Add</button>
 		</div>
 	</div>
