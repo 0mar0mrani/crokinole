@@ -3,6 +3,7 @@
 	let currentPlayer = 0;
 	let scoreInput = 0;
 	let isMenuOpen = false;
+	let isWinner = false;
 
 	function addNewPlayer(nameInput) {
 		const player = {
@@ -19,13 +20,11 @@
 	function handleAddClick() {
 		if (scoreInput >= 0) {
 			addPointsToCurrentPlayer();
-			const isWinner = checkIfWinner();
+			checkIfWinner();
 
-			if (isWinner) {
-				initializeGame();
-			} else {
+			if (!isWinner) {
 				goToNextPlayer();
-			}
+			} 
 		
 			scoreInput = 0;
 		} else {
@@ -37,13 +36,11 @@
 		if (event.key === 'Enter') {
 			if (scoreInput >= 0) {
 			addPointsToCurrentPlayer();
-			const isWinner = checkIfWinner();
+			checkIfWinner();
 
-			if (isWinner) {
-				initializeGame();
-			} else {
+			if (!isWinner) {
 				goToNextPlayer();
-			}
+			} 
 		
 			scoreInput = 0;
 			} else {
@@ -52,13 +49,17 @@
 		}
 	}
 
+	function handleNewGameClick() {
+		initializeGame();
+	}
+ 
 	function handleMenuButtonClick() {
 		isMenuOpen = !isMenuOpen;
 	}
 
 	function handleResetGameClick() {
 		initializeGame();
-		isMenuOpen = !isMenuOpen;
+		isMenuOpen = false;
 	}
 
 	function addPointsToCurrentPlayer() {
@@ -75,10 +76,7 @@
 
 	function checkIfWinner() {
 		if (players[currentPlayer].score >= 100) {
-			alert(`${players[currentPlayer].name} is the winner with ${players[currentPlayer].score} points`);
-			return true;
-		} else {
-			false;
+			isWinner = true;
 		}
 	}
 
@@ -88,9 +86,10 @@
 		for (const player of players) {
 			player.score = 0;
 		}
-
 		// Force render
 		players = players;
+
+		isWinner = false;
 	}
 
 </script>
@@ -128,9 +127,17 @@
 	</div>
 
 	<div class={`crokinole__menu ${isMenuOpen ? 'crokinole__menu--open' : ''}`}>
-		<button class="crokinole__menu-item-button" on:click={handleResetGameClick} >Reset game</button>
+		<button class="crokinole__menu-item-button" on:click={handleResetGameClick}>Reset game</button>
 
-		<button class="crokinole__menu-item-button">Reset players</button>
+		<button class="crokinole__menu-item-button">Reset players and game</button>
+	</div>
+
+	<div class={`crokinole__announcement ${isWinner ? 'crokinole__announcement--open' : ''}`}>
+		<div>{players[currentPlayer].name} is the winner with {players[currentPlayer].score} points</div>
+
+		<button class="crokinole__menu-item-button" on:click={handleNewGameClick}>New game</button>
+
+		<button class="crokinole__menu-item-button">New game and players</button>
 	</div>
 
 	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>Menu</button>
@@ -166,6 +173,25 @@
 
 	.crokinole__menu--open {
 		transform: translateX(0);
+	}
+
+	.crokinole__announcement {
+		display: none;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: 100;
+
+		background-color: rebeccapurple;
+	} 
+
+	.crokinole__announcement--open {
+		display: flex;
 	}
 
 	.crokinole__menu-item-button {
