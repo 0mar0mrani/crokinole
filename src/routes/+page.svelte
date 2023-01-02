@@ -8,11 +8,11 @@
 
 <style>
 	.container {
+		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 100dvw;
 		height: 100dvh;
-		background-color: rebeccapurple;
 	}
 </style>
