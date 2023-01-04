@@ -19,7 +19,6 @@
 		const maxAmountOfPlayers = 4;
 		const isMaxPlayers = players.length < maxAmountOfPlayers;
 		const isValidInput = name !== '';
-		console.log(isValidInput)
 
 		if (isMaxPlayers && isValidInput) {
 			const player = {
@@ -45,7 +44,8 @@
 	function handleAddClick() {
 		if (scoreInput >= 0) {
 			addPointsToCurrentPlayer();
-			checkIfWinner();
+			checkIfRoundFinished();
+			// checkIfWinner();
 
 			if (!isWinner) {
 				goToNextPlayer();
@@ -54,6 +54,14 @@
 			scoreInput = 0;
 		} else {
 			alert('Please add a number equal or greater than 0')
+		}
+	}
+
+	function checkIfRoundFinished() {
+		const lastPlayer = players.length - 1;
+
+		if (currentPlayer === lastPlayer) {
+			isRoundFinished = true;
 		}
 	}
 
@@ -132,8 +140,6 @@
 		} else {
 			isEnoughPlayers = false;
 		}
-
-		console.log(isEnoughPlayers)
 	}
 
 	function goToNextPlayer() {
