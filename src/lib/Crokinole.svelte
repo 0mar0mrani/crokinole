@@ -1,5 +1,6 @@
 <script>
 	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
+	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
 
 	let players = [];
 	let currentPlayer = 0;
@@ -133,10 +134,11 @@
 		handler={handleResetGameClick}
 	/>
 
-	<div class={`crokinole__announcement ${isWinner ? 'crokinole__announcement--open' : ''}`}>
-		<div>{players[currentPlayer].name} is the winner with {players[currentPlayer].score} points</div>
-
-		<button class="crokinole__menu-item-button" on:click={handleNewGameClick}>New game</button>
+	<CrokinoleAnnouncement
+		visibility={isWinner}
+		handler={handleNewGameClick}
+		currentPlayer={players[currentPlayer]}
+	/>
 
 		<button class="crokinole__menu-item-button">New game and players</button>
 	</div>
@@ -156,25 +158,6 @@
 		position: absolute;
 		top: 1rem;
 		right: 1rem;
-	}
-
-	.crokinole__announcement {
-		display: none;
-		flex-direction: column;
-		justify-content: space-evenly;
-		align-items: center;
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		z-index: 100;
-
-		background-color: rebeccapurple;
-	} 
-
-	.crokinole__announcement--open {
-		display: flex;
 	}
 
 	.crokinole__menu-item-button {
