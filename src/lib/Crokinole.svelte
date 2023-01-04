@@ -7,14 +7,21 @@
 	let scoreInput = 0;
 	let isMenuOpen = false;
 	let isWinner = false;
+	let nameInput = '';
 
-	function addNewPlayer(nameInput) {
+	function addNewPlayer(name = nameInput) {
+		const maxAmountOfPlayers = 4;
+
+		if (players.length < maxAmountOfPlayers) {
 		const player = {
-			name: nameInput,
+				name: name,
 			score: 0,
 		}
 
 		players.push(player)
+		} else {
+			alert('Max players is 4')
+		}
 	}
 
 	addNewPlayer('Omar');
