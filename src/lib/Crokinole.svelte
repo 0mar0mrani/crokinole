@@ -153,21 +153,13 @@
 		<div>
 			<span>Scores</span>
 
-			<!-- <div>
-				{players[0].name}
-			</div>
-
-			<div> 
-				{players[0].score}
-			</div>
-
-			<div>
-				{players[1].name}
-			</div>
-
-			<div> 
-				{players[1].score}
-			</div> -->
+			{#each players as player}
+				<div>
+					<div>{player.name}</div>
+					
+					<div>{player.score}</div>
+				</div>
+			{/each}
 		</div>
 	</div>
 	
