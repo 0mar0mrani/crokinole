@@ -58,6 +58,7 @@
 		height: 100%;
 		width: 100%;
 		background-color: red;
+		z-index: 200;
 	}
 
 	.crokinole__players--open {
