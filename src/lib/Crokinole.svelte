@@ -14,8 +14,11 @@
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
+		const isMaxPlayers = players.length < maxAmountOfPlayers;
+		const isValidInput = name !== '';
+		console.log(isValidInput)
 
-		if (players.length < maxAmountOfPlayers) {
+		if (isMaxPlayers && isValidInput) {
 			const player = {
 				name: name,
 				score: 0,
@@ -23,7 +26,13 @@
 	
 			players.push(player)
 		} else {
-			alert('Max players is 4')
+			if (isMaxPlayers) {
+				alert('Max players is 4')
+			}
+			
+			if (isValidInput === false) {
+				alert('Please add a name')
+			}
 		}
 	}
 
