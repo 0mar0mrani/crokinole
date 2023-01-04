@@ -9,8 +9,11 @@
 	let isMenuOpen = false;
 	let isWinner = false;
 	let nameInput = '';
-	let addPlayers = true;
+	let addPlayers = false; // true
+
+
 	let isEnoughPlayers = false;
+	let isRoundFinished = true;
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
@@ -69,6 +72,10 @@
 				alert('Please add a number equal or greater than 0')
 			}
 		}
+	}
+
+	function handleNewRoundClick() {
+		isRoundFinished = false;
 	}
 
 	function handleNewGameClick() {
@@ -171,8 +178,16 @@
 			{/each}
 		</div>
 	</div>
+
+	{#if isRoundFinished}
+		<button
+		on:click={handleNewRoundClick}
+		>
+			New Round
+		</button>
+	{/if}
 	
-	{#if players.length > 0}
+	{#if !isRoundFinished && players.length > 0}
 		<div>
 			<div>Current Player: {players[currentPlayer].name}</div>
 			
