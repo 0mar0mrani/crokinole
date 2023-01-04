@@ -1,6 +1,7 @@
 <script>
 	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
 	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
+	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
 
 	let players = [];
 	let currentPlayer = 0;
@@ -8,6 +9,7 @@
 	let isMenuOpen = false;
 	let isWinner = false;
 	let nameInput = '';
+	let addPlayers = false;
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
@@ -147,8 +149,12 @@
 		currentPlayer={players[currentPlayer]}
 	/>
 
-		<button class="crokinole__menu-item-button">New game and players</button>
-	</div>
+	<CrokinolePlayers
+		visibility={addPlayers}
+		bind:nameInputChild={nameInput}
+		players={players}
+		handleAddPlayerClick={handleAddPlayerClick}
+	/>
 
 	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>Menu</button>
 </section>
