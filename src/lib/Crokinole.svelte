@@ -75,8 +75,7 @@
 		isMenuOpen = false;
 	}
 
-	function handleResetGameAndPlayers() {
-		initializeGame();
+	function handleChangePlayersClick() {
 		isMenuOpen = false;
 		addPlayers = true;
 	}
@@ -156,7 +155,7 @@
 			{#each players as player}
 				<div>
 					<div>{player.name}</div>
-					
+
 					<div>{player.score}</div>
 				</div>
 			{/each}
@@ -177,7 +176,7 @@
 	<CrokinoleMenu 
 		visibility={isMenuOpen}
 		handler={handleResetGameClick}
-		handleResetGameAndPlayers={handleResetGameAndPlayers}
+		handleChangePlayersClick={handleChangePlayersClick}
 	/>
 
 	<CrokinoleAnnouncement
