@@ -112,6 +112,7 @@
 	function handleAddPlayerClick() {
 		addNewPlayer();
 		setIsEnoughPlayers();
+		nameInput = '';
 		// Force render
 		players = players;
 	}
