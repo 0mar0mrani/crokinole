@@ -5,6 +5,7 @@
 	export let nameInputChild;
 	export let handleStartGameClick;
 	export let handleDeleteClick;
+	export let isEnoughPlayers;
 </script>
 
 <div class={`crokinole__players ${visibility ? 'crokinole__players--open' : ''}`}>
@@ -39,6 +40,7 @@
 	</div>
 
 	<button
+		class={!isEnoughPlayers ? 'crokinole__button--deactivated' : ''}
 		on:click={handleStartGameClick}
 		>Start Game
 	</button>
@@ -64,5 +66,10 @@
 
 	.crokinole__player {
 		display: flex;
+	}
+
+	.crokinole__button--deactivated {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 </style>

@@ -199,6 +199,7 @@
 		visibility={addPlayers}
 		bind:nameInputChild={nameInput}
 		players={players}
+		isEnoughPlayers={isEnoughPlayers}
 		handleAddPlayerClick={handleAddPlayerClick}
 		handleStartGameClick={handleStartGameClick}
 		handleDeleteClick={handleDeleteClick}
