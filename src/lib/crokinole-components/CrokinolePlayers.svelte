@@ -3,6 +3,7 @@
 	export let visibility;
 	export let handleAddPlayerClick;
 	export let nameInputChild;
+	export let handleStartGameClick;
 </script>
 
 <div class={`crokinole__players ${visibility ? 'crokinole__players--open' : ''}`}>
@@ -29,8 +30,9 @@
 		</button>
 	</div>
 
-	<button>
-		Start Game
+	<button
+		on:click={handleStartGameClick}
+		>Start Game
 	</button>
 </div>
 
