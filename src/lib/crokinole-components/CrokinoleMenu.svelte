@@ -1,12 +1,13 @@
 <script>
 	export let visibility;
 	export let handler;
+	export let handleResetGameAndPlayers;
 </script>
 
 <div class={`crokinole__menu ${visibility ? 'crokinole__menu--open' : ''}`}>
 	<button class="crokinole__menu-item-button" on:click={handler}>Reset game</button>
 
-	<button class="crokinole__menu-item-button">Reset players and game</button>
+	<button class="crokinole__menu-item-button" on:click={handleResetGameAndPlayers}>Reset players and game</button>
 </div>
 
 <style>

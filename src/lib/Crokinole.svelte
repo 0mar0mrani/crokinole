@@ -74,6 +74,12 @@
 		isMenuOpen = false;
 	}
 
+	function handleResetGameAndPlayers() {
+		initializeGame();
+		isMenuOpen = false;
+		addPlayers = true;
+	}
+
 	function addPointsToCurrentPlayer() {
 		players[currentPlayer].score += scoreInput;
 	}
@@ -141,6 +147,7 @@
 	<CrokinoleMenu 
 		visibility={isMenuOpen}
 		handler={handleResetGameClick}
+		handleResetGameAndPlayers={handleResetGameAndPlayers}
 	/>
 
 	<CrokinoleAnnouncement
