@@ -15,12 +15,12 @@
 		const maxAmountOfPlayers = 4;
 
 		if (players.length < maxAmountOfPlayers) {
-		const player = {
+			const player = {
 				name: name,
-			score: 0,
-		}
-
-		players.push(player)
+				score: 0,
+			}
+	
+			players.push(player)
 		} else {
 			alert('Max players is 4')
 		}
@@ -82,6 +82,12 @@
 
 	function addPointsToCurrentPlayer() {
 		players[currentPlayer].score += scoreInput;
+	}
+
+	function handleAddPlayerClick() {
+		addNewPlayer();
+		// Force render
+		players = players;
 	}
 
 	function goToNextPlayer() {
