@@ -156,14 +156,16 @@
 		</div>
 	</div>
 	
-	<div>
-		<div>Current Player: {players[currentPlayer].name}</div>
-		
+	{#if players.length > 0}
 		<div>
-			<input type="number" bind:value={scoreInput} on:keydown={handleInputKeydown} step="5">
-			<button on:click={handleAddClick}>Add</button>
+			<div>Current Player: {players[currentPlayer].name}</div>
+			
+			<div>
+				<input type="number" bind:value={scoreInput} on:keydown={handleInputKeydown} step="5">
+				<button on:click={handleAddClick}>Add</button>
+			</div>
 		</div>
-	</div>
+	{/if}
 
 	<CrokinoleMenu 
 		visibility={isMenuOpen}
@@ -175,6 +177,7 @@
 		visibility={isWinner}
 		handler={handleNewGameClick}
 		currentPlayer={players[currentPlayer]}
+		players={players}
 	/>
 
 	<CrokinolePlayers

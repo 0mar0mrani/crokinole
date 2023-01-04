@@ -2,15 +2,18 @@
 	export let visibility;
 	export let handler;
 	export let currentPlayer;
+	export let players;
 </script>
 
-<div class={`crokinole__announcement ${visibility ? 'crokinole__announcement--open' : ''}`}>
-	<div>{currentPlayer.name} is the winner with {currentPlayer.score} points</div>
+{#if players.length > 0}
+	<div class={`crokinole__announcement ${visibility ? 'crokinole__announcement--open' : ''}`}>
+		<div>{currentPlayer.name} is the winner with {currentPlayer.score} points</div>
 
-	<button class="crokinole__menu-item-button" on:click={handler}>New game</button>
+		<button class="crokinole__menu-item-button" on:click={handler}>New game</button>
 
-	<button class="crokinole__menu-item-button">New game and players</button>
-</div>
+		<button class="crokinole__menu-item-button">New game and players</button>
+	</div>
+{/if}
 
 <style>
 	.crokinole__announcement {
