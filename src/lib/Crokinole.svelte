@@ -10,6 +10,7 @@
 	let isWinner = false;
 	let nameInput = '';
 	let addPlayers = true;
+	let isEnoughPlayers = false;
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
@@ -87,6 +88,7 @@
 	function handleDeleteClick(event) {
 		const playerElementID = Number(event.path[1].dataset.id);
 		deletePlayer(playerElementID);
+		setIsEnoughPlayers();
 		// Force render
 		players = players;
 	}
@@ -101,8 +103,21 @@
 
 	function handleAddPlayerClick() {
 		addNewPlayer();
+		setIsEnoughPlayers();
 		// Force render
 		players = players;
+	}
+
+	function setIsEnoughPlayers() {
+		const minimumPlayers = 2;
+
+		if (players.length >= minimumPlayers) {
+			isEnoughPlayers = true;
+		} else {
+			isEnoughPlayers = false;
+		}
+
+		console.log(isEnoughPlayers)
 	}
 
 	function goToNextPlayer() {
