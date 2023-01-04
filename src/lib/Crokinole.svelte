@@ -11,7 +11,6 @@
 	let nameInput = '';
 	let addPlayers = false; // true
 
-
 	let isEnoughPlayers = false;
 	let isRoundFinished = true;
 
@@ -24,6 +23,7 @@
 			const player = {
 				name: name,
 				score: 0,
+				id: players.length - 1,
 			}
 	
 			players.push(player)
@@ -40,17 +40,19 @@
 
 	addNewPlayer('Omar');
 	addNewPlayer('Amalie');
+	addNewPlayer('Oro');
+	addNewPlayer('Elias');
 
 	function handleAddClick() {
 		if (scoreInput >= 0) {
 			addPointsToCurrentPlayer();
 			checkIfRoundFinished();
-			// checkIfWinner();
+			goToNextPlayer();
 
-			if (!isWinner) {
-				goToNextPlayer();
-			} 
-		
+			if (isRoundFinished) {
+				checkIfWinner();
+			}
+
 			scoreInput = 0;
 		} else {
 			alert('Please add a number equal or greater than 0')
@@ -151,8 +153,33 @@
 	}
 
 	function checkIfWinner() {
-		if (players[currentPlayer].score >= 100) {
+		const copyPlayers = [...players];
+
+		copyPlayers.sort((a, b) => {
+			if (a.score > b.score) {
+				return -1;
+			}
+
+			if (a.score < b.score) {
+				return 1;
+			}
+		})
+
+		const playerWithBiggestScore = copyPlayers[0].score;
+
+		if (playerWithBiggestScore >= 100) {
 			isWinner = true;
+
+			const winnerID = copyPlayers[0].id;
+
+			setWinnerToCurrentPlayer();
+			function setWinnerToCurrentPlayer() {
+				players.forEach((player, index) => {
+					if (player.id === winnerID) {
+						currentPlayer = index;
+					}
+				})
+			}
 		}
 	}
 
