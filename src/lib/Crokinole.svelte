@@ -9,7 +9,7 @@
 	let isMenuOpen = false;
 	let isWinner = false;
 	let nameInput = '';
-	let addPlayers = false;
+	let addPlayers = true;
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
@@ -80,6 +80,21 @@
 		addPlayers = true;
 	}
 
+	function handleStartGameClick() {
+		addPlayers = false;
+	}
+
+	function handleDeleteClick(event) {
+		const playerElementID = Number(event.path[1].dataset.id);
+		deletePlayer(playerElementID);
+		// Force render
+		players = players;
+	}
+
+	function deletePlayer(id) {
+		players.splice(id, 1);
+	}
+
 	function addPointsToCurrentPlayer() {
 		players[currentPlayer].score += scoreInput;
 	}
@@ -123,7 +138,7 @@
 		<div>
 			<span>Scores</span>
 
-			<div>
+			<!-- <div>
 				{players[0].name}
 			</div>
 
@@ -137,7 +152,7 @@
 
 			<div> 
 				{players[1].score}
-			</div>
+			</div> -->
 		</div>
 	</div>
 	
@@ -167,6 +182,8 @@
 		bind:nameInputChild={nameInput}
 		players={players}
 		handleAddPlayerClick={handleAddPlayerClick}
+		handleStartGameClick={handleStartGameClick}
+		handleDeleteClick={handleDeleteClick}
 	/>
 
 	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>Menu</button>

@@ -4,12 +4,15 @@
 	export let handleAddPlayerClick;
 	export let nameInputChild;
 	export let handleStartGameClick;
+	export let handleDeleteClick;
 </script>
 
 <div class={`crokinole__players ${visibility ? 'crokinole__players--open' : ''}`}>
+	<div>Add players</div>
+
 	<div class="crokinole__player-container">
 		{#each players as player, index}
-			<div class="crokinole__player">
+			<div class="crokinole__player" data-id={index}>
 				<div>
 					{`P${index + 1}`}
 				</div>
@@ -17,6 +20,11 @@
 				<div>
 					{player.name}
 				</div>
+
+				<button
+					on:click={handleDeleteClick}>
+					Delete
+				</button>
 			</div>
 		{/each}
 	</div>
