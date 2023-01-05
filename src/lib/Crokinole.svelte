@@ -10,9 +10,9 @@
 	let isWinner = false;
 	let nameInput = '';
 	let addPlayers = false; // true
-
 	let isEnoughPlayers = false;
 	let isRoundFinished = true;
+	let scoreGoal = 100;
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
@@ -118,6 +118,18 @@
 		players = players;
 	}
 
+	function handleScoreRangeInput(event) {
+		const inputValue = event.target.value;
+		scoreGoal = inputValue;
+	}
+
+	function handleScoreNumberInput(event) {
+		const inputValue = event.target.value;
+		if (inputValue > 0) {
+			scoreGoal = inputValue;
+		}
+	}
+
 	function deletePlayer(id) {
 		players.splice(id, 1);
 	}
@@ -167,7 +179,7 @@
 
 		const playerWithBiggestScore = copyPlayers[0].score;
 
-		if (playerWithBiggestScore >= 100) {
+		if (playerWithBiggestScore >= scoreGoal) {
 			isWinner = true;
 
 			const winnerID = copyPlayers[0].id;
@@ -233,8 +245,11 @@
 
 	<CrokinoleMenu 
 		visibility={isMenuOpen}
+		scoreGoal={scoreGoal}
 		handler={handleResetGameClick}
 		handleChangePlayersClick={handleChangePlayersClick}
+		handleScoreRangeInput={handleScoreRangeInput}
+		handleScoreNumberInput={handleScoreNumberInput}
 	/>
 
 	<CrokinoleAnnouncement
