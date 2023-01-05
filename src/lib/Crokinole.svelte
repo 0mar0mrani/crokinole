@@ -50,6 +50,7 @@
 			goToNextPlayer();
 
 			if (isRoundFinished) {
+				subtractAllScoresWithSmallestScore();
 				checkIfWinner();
 			}
 
@@ -128,6 +129,26 @@
 		if (inputValue > 0) {
 			scoreGoal = inputValue;
 		}
+	}
+
+	function subtractAllScoresWithSmallestScore() {
+		const copyPlayers = [...players];
+
+		copyPlayers.sort((a, b) => {
+			if (a.score > b.score) {
+				return -1;
+			}
+
+			if (a.score < b.score) {
+				return 1;
+			}
+		})
+
+		const playerWithSmallestScore = copyPlayers.pop().score;
+
+		players.forEach(player => {
+			player.score -= playerWithSmallestScore;
+		})
 	}
 
 	function deletePlayer(id) {

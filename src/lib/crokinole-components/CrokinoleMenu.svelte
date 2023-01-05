@@ -2,7 +2,6 @@
 	export let visibility;
 	export let handler;
 	export let handleChangePlayersClick;
-	export let handleScoreGoalClick;
 	export let handleScoreRangeInput;
 	export let handleScoreNumberInput;
 	export let scoreGoal;
