@@ -7,7 +7,7 @@
 
 {#if players.length > 0}
 	<div class={`crokinole__announcement ${visibility ? 'crokinole__announcement--open' : ''}`}>
-		<div>{currentPlayer.name} is the winner with {currentPlayer.score} points</div>
+		<div>{currentPlayer.name} is the winner with {currentPlayer.totalScore} points</div>
 
 		<button class="crokinole__menu-item-button" on:click={handler}>New game</button>
 
