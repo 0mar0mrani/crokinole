@@ -144,10 +144,20 @@
 			}
 		})
 
-		const playerWithSmallestScore = copyPlayers.pop().score;
+		const playerWithSmallestCurrentScore = getPlayerWithSmallestCurrentScore();
 
 		players.forEach(player => {
-			player.score -= playerWithSmallestScore;
+			player.currentScore -= playerWithSmallestCurrentScore;
+		})
+
+		function getPlayerWithSmallestCurrentScore() {
+			for (let index = copyPlayers.length - 1; index >= 0; index -= 1) {
+				if (copyPlayers[index].isPlaying) {
+					return copyPlayers[index].currentScore;
+				}
+			}
+		}
+	}
 		})
 	}
 
