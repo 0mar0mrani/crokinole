@@ -13,6 +13,7 @@
 	let isEnoughPlayers = false;
 	let isRoundFinished = true;
 	let scoreGoal = 100;
+	let playersWithSameScore = [];
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
@@ -25,6 +26,7 @@
 				totalScore: 0,
 				currentSore: 0,
 				id: players.length - 1,
+				isPlaying : true,
 			}
 	
 			players.push(player)
@@ -49,6 +51,11 @@
 			addPointsToCurrentScore();
 			checkIfRoundFinished();
 			goToNextPlayer();
+
+			while (!players[currentPlayer].isPlaying) {
+				checkIfRoundFinished();
+				goToNextPlayer();
+			}
 
 			if (isRoundFinished) {
 				subtractAllScoresWithSmallestScore();
@@ -218,7 +225,28 @@
 		const playerWithBiggestScore = copyPlayers[0].totalScore;
 
 		if (playerWithBiggestScore >= scoreGoal) {
+			playersWithSameScore = [];
+
+			for (let index = 0; index < copyPlayers.length; index += 1) {
+				if (copyPlayers[index].totalScore === playerWithBiggestScore) {
+					playersWithSameScore.push(copyPlayers[index])
+				} else {
+					const loserID = copyPlayers[index].id;
+
+					for (const player of players) {
+						if (player.id === loserID) {
+							player.isPlaying = false;
+							console.log('disabled')
+						}
+					}
+				}
+			}
+
+			if (playersWithSameScore.length === 1) {
 			isWinner = true;
+			} else {
+				isWinner = false;
+			}
 
 			const winnerID = copyPlayers[0].id;
 
