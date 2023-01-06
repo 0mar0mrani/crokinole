@@ -311,28 +311,28 @@
 
 	<CrokinoleMenu 
 		visibility={isMenuOpen}
-		scoreGoal={scoreGoal}
+		{scoreGoal}
 		handler={handleResetGameClick}
-		handleChangePlayersClick={handleChangePlayersClick}
-		handleScoreRangeInput={handleScoreRangeInput}
-		handleScoreNumberInput={handleScoreNumberInput}
+		{handleChangePlayersClick}
+		{handleScoreRangeInput}
+		{handleScoreNumberInput}
 	/>
 
 	<CrokinoleAnnouncement
 		visibility={isWinner}
 		handler={handleNewGameClick}
 		currentPlayer={players[currentPlayer]}
-		players={players}
+		{players}
 	/>
 
 	<CrokinolePlayers
 		visibility={addPlayers}
 		bind:nameInputChild={nameInput}
-		players={players}
-		isEnoughPlayers={isEnoughPlayers}
-		handleAddPlayerClick={handleAddPlayerClick}
-		handleStartGameClick={handleStartGameClick}
-		handleDeleteClick={handleDeleteClick}
+		{players}
+		{isEnoughPlayers}
+		{handleAddPlayerClick}
+		{handleStartGameClick}
+		{handleDeleteClick}
 	/>
 
 	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>Menu</button>
