@@ -5,7 +5,7 @@
 
 	let players = [];
 	let currentPlayer = 0;
-	let scoreInput = 0;
+	let scoreInput = '';
 	let isMenuOpen = false;
 	let isWinner = false;
 	let nameInput = '';
@@ -63,7 +63,7 @@
 				checkIfWinner();
 			}
 
-			scoreInput = 0;
+			scoreInput = '';
 		} else {
 			alert('Please add a number equal or greater than 0')
 		}
