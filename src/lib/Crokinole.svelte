@@ -265,12 +265,14 @@
 		currentPlayer = 0;
 
 		for (const player of players) {
+			player.currentScore = 0;
 			player.totalScore = 0;
+			player.isPlaying = 0;
 		}
-		// Force render
-		players = players;
 
 		isWinner = false;
+		playersWithSameScore = [];
+		players = players;
 	}
 
 </script>
