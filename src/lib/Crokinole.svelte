@@ -22,7 +22,8 @@
 		if (isMaxPlayers && isValidInput) {
 			const player = {
 				name: name,
-				score: 0,
+				totalScore: 0,
+				currentSore: 0,
 				id: players.length - 1,
 			}
 	
@@ -45,12 +46,13 @@
 
 	function handleAddClick() {
 		if (scoreInput >= 0) {
-			addPointsToCurrentPlayer();
+			addPointsToCurrentScore();
 			checkIfRoundFinished();
 			goToNextPlayer();
 
 			if (isRoundFinished) {
 				subtractAllScoresWithSmallestScore();
+				setTotalScore();
 				checkIfWinner();
 			}
 
@@ -71,7 +73,7 @@
 	function handleInputKeydown(event) {
 		if (event.key === 'Enter') {
 			if (scoreInput >= 0) {
-			addPointsToCurrentPlayer();
+			addPointsToCurrentScore();
 			checkIfWinner();
 
 			if (!isWinner) {
@@ -135,11 +137,11 @@
 		const copyPlayers = [...players];
 
 		copyPlayers.sort((a, b) => {
-			if (a.score > b.score) {
+			if (a.currentScore > b.currentScore) {
 				return -1;
 			}
 
-			if (a.score < b.score) {
+			if (a.currentScore < b.currentScore) {
 				return 1;
 			}
 		})
@@ -158,6 +160,11 @@
 			}
 		}
 	}
+
+	function setTotalScore() {
+		players.forEach(player => {
+			player.totalScore += player.currentScore;
+			player.currentScore = 0;
 		})
 	}
 
@@ -165,8 +172,8 @@
 		players.splice(id, 1);
 	}
 
-	function addPointsToCurrentPlayer() {
-		players[currentPlayer].score += scoreInput;
+	function addPointsToCurrentScore() {
+		players[currentPlayer].currentScore = scoreInput;
 	}
 
 	function handleAddPlayerClick() {
@@ -199,16 +206,16 @@
 		const copyPlayers = [...players];
 
 		copyPlayers.sort((a, b) => {
-			if (a.score > b.score) {
+			if (a.totalScore > b.totalScore) {
 				return -1;
 			}
 
-			if (a.score < b.score) {
+			if (a.totalScore < b.totalScore) {
 				return 1;
 			}
 		})
 
-		const playerWithBiggestScore = copyPlayers[0].score;
+		const playerWithBiggestScore = copyPlayers[0].totalScore;
 
 		if (playerWithBiggestScore >= scoreGoal) {
 			isWinner = true;
@@ -230,7 +237,7 @@
 		currentPlayer = 0;
 
 		for (const player of players) {
-			player.score = 0;
+			player.totalScore = 0;
 		}
 		// Force render
 		players = players;
@@ -249,7 +256,7 @@
 				<div>
 					<div>{player.name}</div>
 
-					<div>{player.score}</div>
+					<div>{player.totalScore}</div>
 				</div>
 			{/each}
 		</div>
