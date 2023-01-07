@@ -2,7 +2,6 @@
 	export let visibility;
 	export let handler;
 	export let handleChangePlayersClick;
-	export let handleScoreRangeInput;
 	export let handleScoreNumberInput;
 	export let scoreGoal;
 </script>
@@ -15,10 +14,7 @@
 	<div>
 		<div>Score Goal</div>
 
-		<div>
-			<input type="number" value={scoreGoal} on:input={handleScoreNumberInput}>
-			<input type="range" value={scoreGoal} min="50" max="300" on:input={handleScoreRangeInput}>
-		</div>
+		<input type="number" value={scoreGoal} on:input={handleScoreNumberInput}>
 	</div>
 
 </div>
