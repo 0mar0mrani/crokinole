@@ -8,6 +8,7 @@
 	export let handleStartGameClick;
 	export let handleDeleteClick;
 	export let isEnoughPlayers;
+	export let nameInputElChild;
 </script>
 
 <div class={`crokinole__players ${visibility ? 'crokinole__players--open' : ''}`}>
@@ -34,6 +35,7 @@
 			type="text" 
 			class="crokinole__input-text"
 			bind:value={nameInputChild}
+			bind:this={nameInputElChild}
 		>
 
 		<button

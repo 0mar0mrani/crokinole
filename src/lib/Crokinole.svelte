@@ -19,6 +19,7 @@
 	$: isEnoughPlayers = players.length >= 2 ? true : false;
 
 	let numberInputEl;
+	let nameInputEl;
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
@@ -132,11 +133,6 @@
 		players = players;
 	}
 
-	function handleScoreRangeInput(event) {
-		const inputValue = event.target.value;
-		scoreGoal = inputValue;
-	}
-
 	function handleScoreNumberInput(event) {
 		const inputValue = event.target.value;
 		if (inputValue > 0) {
@@ -190,6 +186,7 @@
 	function handleAddPlayerClick() {
 		addNewPlayer();
 		nameInput = '';
+		nameInputEl.focus();
 		players = players;
 	}
 
@@ -333,7 +330,6 @@
 		{scoreGoal}
 		handler={handleResetGameClick}
 		{handleChangePlayersClick}
-		{handleScoreRangeInput}
 		{handleScoreNumberInput}
 	/>
 
@@ -347,6 +343,7 @@
 	<CrokinolePlayers
 		visibility={addPlayers}
 		bind:nameInputChild={nameInput}
+		bind:nameInputElChild={nameInputEl}
 		{players}
 		{isEnoughPlayers}
 		{handleAddPlayerClick}
