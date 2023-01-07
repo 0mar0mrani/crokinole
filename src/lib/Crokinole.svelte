@@ -127,7 +127,7 @@
 	}
 
 	function handleDeleteClick(event) {
-		const playerElementID = Number(event.path[1].dataset.id);
+		const playerElementID = event.currentTarget.parentElement.dataset.id;
 		deletePlayer(playerElementID);
 		players = players;
 	}
