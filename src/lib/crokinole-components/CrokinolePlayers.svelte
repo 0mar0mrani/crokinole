@@ -37,7 +37,7 @@
 		>
 
 		<button
-			class={`crokinole__button ${nameInputChild !== '' ? '' : 'crokinole__button--deactivated'}`}
+			class={`crokinole__button ${nameInputChild !== '' && players.length < 4 ? '' : 'crokinole__button--deactivated'}`}
 			on:click={handleAddPlayerClick}
 			>Add player
 		</button>
