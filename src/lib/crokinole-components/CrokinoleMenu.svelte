@@ -11,10 +11,14 @@
 
 	<button class="crokinole__menu-item-button" on:click={handleChangePlayersClick}>Change Players</button>
 
-	<div>
-		<div>Score Goal</div>
+	<div class="crokinole__score-goal-container">
+		<div class="crokinole__score-goal-header">Score Goal</div>
 
-		<input type="number" value={scoreGoal} on:input={handleScoreNumberInput}>
+		<input 
+		type="number" 
+		class="crokinole__score-goal-input"
+		value={scoreGoal} 
+		on:input={handleScoreNumberInput}>
 	</div>
 
 </div>
@@ -29,12 +33,37 @@
 		left: 0;
 		height: 100%;
 		width: 100%;
-		background-color: red;
+		background-color: #a3622c78;
+		backdrop-filter: blur(10px);
 		transition: all 0.3s;
 		transform: translateX(100%);
 	}
 
 	.crokinole__menu--open {
 		transform: translateX(0);
+	}
+
+	.crokinole__menu-item-button {
+		padding: 1rem 2rem;
+		border: solid 2px #000;
+		border-radius: 2rem;
+		align-self: center;
+	}
+
+	.crokinole__score-goal-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.crokinole__score-goal-header {
+		text-align: center;
+		margin-bottom: 0.5rem;
+	}
+
+	.crokinole__score-goal-input {
+		border: solid 2px #000;
+		width: 50%;
+		text-align: center; 
 	}
 </style>
