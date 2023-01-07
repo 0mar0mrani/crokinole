@@ -7,11 +7,9 @@
 
 {#if players.length > 0}
 	<div class={`crokinole__announcement ${visibility ? 'crokinole__announcement--open' : ''}`}>
-		<div>{currentPlayer.name} is the winner with {currentPlayer.totalScore} points</div>
+		<div class="crokinole__announcement-text">{currentPlayer.name} is the winner with {currentPlayer.totalScore} points!</div>
 
 		<button class="crokinole__menu-item-button" on:click={handler}>New game</button>
-
-		<button class="crokinole__menu-item-button">New game and players</button>
 	</div>
 {/if}
 
@@ -27,11 +25,22 @@
 		height: 100%;
 		width: 100%;
 		z-index: 100;
-
-		background-color: rebeccapurple;
+		background-color: #a3622c78;
+		backdrop-filter: blur(10px);
 	} 
 
 	.crokinole__announcement--open {
 		display: flex;
+	}
+
+	.crokinole__announcement-text {
+		padding: 0 2rem;
+	}
+
+	.crokinole__menu-item-button {
+		padding: 1rem 2rem;
+		border: solid 2px #000;
+		border-radius: 2rem;
+		align-self: center;
 	}
 </style>
