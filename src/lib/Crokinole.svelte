@@ -18,6 +18,8 @@
 
 	$: isEnoughPlayers = players.length >= 2 ? true : false;
 
+	let numberInputEl;
+
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
 		const isMaxPlayers = players.length < maxAmountOfPlayers;
@@ -66,6 +68,7 @@
 				checkIfWinner();
 			}
 
+			numberInputEl.focus();
 			scoreInput = '';
 		} else {
 			alert('Please add a number equal or greater than 0')
@@ -310,6 +313,7 @@
 						type="number" 
 						class="crokinole__input-number"
 						bind:value={scoreInput} 
+						bind:this={numberInputEl}
 						on:keydown={handleInputKeydown} 
 						step="5"
 					>
