@@ -2,6 +2,8 @@
 	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
 	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
 	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
+	import MenuSVG from "./crokinole-components/MenuSVG.svelte";
+	import CloseSVG from "./crokinole-components/CloseSVG.svelte";
 
 	let players = [];
 	let currentPlayer = 0;
@@ -51,7 +53,7 @@
 			addPointsToCurrentScore();
 			checkIfRoundFinished();
 			goToNextPlayer();
-
+			
 			while (!players[currentPlayer].isPlaying) {
 				checkIfRoundFinished();
 				goToNextPlayer();
@@ -243,7 +245,7 @@
 			}
 
 			if (playersWithSameScore.length === 1) {
-			isWinner = true;
+				isWinner = true;
 			} else {
 				isWinner = false;
 			}
@@ -267,10 +269,11 @@
 		for (const player of players) {
 			player.currentScore = 0;
 			player.totalScore = 0;
-			player.isPlaying = 0;
+			player.isPlaying = true;
 		}
 
 		isWinner = false;
+		isRoundFinished = true;
 		playersWithSameScore = [];
 		players = players;
 	}
@@ -278,38 +281,61 @@
 </script>
 
 <section class="crokinole">
+	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>
+		{#if isMenuOpen}
+			<CloseSVG/>
+			{:else}
+			<MenuSVG/>
+		{/if}
+	</button>
+	
 	<div>
 		<div>
-			<span>Scores</span>
+			<div class="crokinole__header">Points</div>
 
-			{#each players as player}
-				<div>
-					<div>{player.name}</div>
+			<div class="crokinole__players">
+				{#each players as player}
+					<div class="crokinole__player">
+						<div class="crokinole__player-name">{player.name}</div>
 
-					<div>{player.totalScore}</div>
-				</div>
-			{/each}
+						<div class="crokinole__player-score">{player.totalScore}</div>
+					</div>
+				{/each}
+			</div>
 		</div>
 	</div>
 
-	{#if isRoundFinished}
-		<button
-		on:click={handleNewRoundClick}
-		>
-			New Round
-		</button>
-	{/if}
-	
-	{#if !isRoundFinished && players.length > 0}
-		<div>
-			<div>Current Player: {players[currentPlayer].name}</div>
-			
-			<div>
-				<input type="number" bind:value={scoreInput} on:keydown={handleInputKeydown} step="5">
-				<button on:click={handleAddClick}>Add</button>
+	<div class="crokinole__bottom-section">
+		{#if isRoundFinished}
+			<button
+			class="crokinole__button crokinole__button--bottom"
+			on:click={handleNewRoundClick}>
+				New Round
+			</button>
+		{/if}
+		
+		{#if !isRoundFinished && players.length > 0}
+			<div class="crokinole__input-name">
+				<div class="crokinole__name">{players[currentPlayer].name}</div>
+				
+				<div class="crokinole__input-container">
+					<input 
+						type="number" 
+						class="crokinole__input-number"
+						bind:value={scoreInput} 
+						on:keydown={handleInputKeydown} 
+						step="5"
+					>
+
+					<button 
+					class="crokinole__button"
+					on:click={handleAddClick}>
+						Add
+					</button>
+				</div>
 			</div>
-		</div>
-	{/if}
+		{/if}
+	</div>
 
 	<CrokinoleMenu 
 		visibility={isMenuOpen}
@@ -336,33 +362,112 @@
 		{handleStartGameClick}
 		{handleDeleteClick}
 	/>
-
-	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>Menu</button>
 </section>
 
 <style>
+	:global(*) {
+		padding: 0;
+		margin: 0;
+		box-sizing: border-box;
+		user-select: none;
+	}
+
+	:global(button, input) {
+		font-family: inherit;
+		font-size: inherit;
+		cursor: pointer;
+		background-color: inherit;
+	}
+
+	:global(html) {
+		font-size: 10px;
+	}
+
+	:global(body) {
+		font-size: 3rem;
+		font-family: 'Roboto', sans-serif;
+	}
+
 	.crokinole {
 		height: 100%;
+		width: 100%;
+		max-width: 30rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly;
+		z-index: 1;
 	}
 
 	.crokinole__menu-button {
 		position: absolute;
-		top: 1rem;
-		right: 1rem;
+		top: 2rem;
+		right: 2rem;
+		width: 4rem;
+		height: 4rem;
+		border: none;
+		z-index: 100;
 	}
-
 	.crokinole__menu-item-button {
 		font-size: 2rem;
 		border: none;
 		cursor: pointer;
 	}
 
-	.crokinole__menu-button:hover,
-	.crokinole__menu-button:active {
-		background-color: rebeccapurple;
+	.crokinole__header {
+		font-size: 4rem;
+		font-weight: 500;
+		margin-bottom: 2rem;
+		border-bottom: solid 2px #000;
 	}
 
+	.crokinole__players {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		height: 16rem;
+	}
+
+	.crokinole__player {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.crokinole__bottom-section {
+		display: flex;
+		flex-direction: column;
+		height: 10rem;
+	}
+
+	.crokinole__input-container {
+		display: flex;
+		gap: 2rem;
+		width: 100%;
+	}
+
+	.crokinole__input-name {
+		margin-top: auto;
+	}
+
+	.crokinole__button {
+		padding: 1rem 2rem;
+		border: solid 2px #000;
+		border-radius: 2rem;
+	}
+
+	.crokinole__button--bottom {
+		margin-top: auto;
+	}
+
+	.crokinole__input-number {
+		flex-grow: 1;
+		appearance: none;
+		width: 10%;
+		border: solid 2px #000;
+		padding-left: 0.5rem;
+	}
+
+	.crokinole__name {
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+	}
 </style>
