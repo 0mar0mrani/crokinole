@@ -4,6 +4,7 @@
 	export let players;
 	export let visibility;
 	export let handleAddPlayerClick;
+	export let handleAddPlayerKeydown;
 	export let nameInputChild;
 	export let handleStartGameClick;
 	export let handleDeleteClick;
@@ -34,6 +35,7 @@
 		<input 
 			type="text" 
 			class="crokinole__input-text"
+			on:keydown={handleAddPlayerKeydown}
 			bind:value={nameInputChild}
 			bind:this={nameInputElChild}
 		>

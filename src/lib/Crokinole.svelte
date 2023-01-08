@@ -22,26 +22,7 @@
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
-		console.log(state)
 		storeLocally();
-	}
-
-	function returnGetLocalStorage() {
-		if (browser) {
-			const localState = window.localStorage.getItem('crokinoleState');
-			const parsedLocalState = JSON.parse(localState);
-			
-			if (localState) {
-				state = parsedLocalState;
-			} 
-		}
-	}
-
-	function storeLocally() {
-		if (browser) {
-			const serializedState = JSON.stringify(state);
-			window.localStorage.setItem('crokinoleState', serializedState);
-		}
 	}
 
 	let numberInputEl;
@@ -73,11 +54,6 @@
 		}
 	}
 
-	// addNewPlayer('Omar');
-	// addNewPlayer('Amalie');
-	// addNewPlayer('Oro');
-	// addNewPlayer('Elias');
-
 	function handleAddClick() {
 		if (scoreInput >= 0) {
 			addPointsToCurrentScore();
@@ -102,28 +78,37 @@
 		}
 	}
 
+	function handleScoreInputKeydown(event) {
+		if (event.key === 'Enter') {
+			if (scoreInput >= 0) {
+				addPointsToCurrentScore();
+				checkIfRoundFinished();
+				goToNextPlayer();
+			
+				while (!state.players[state.currentPlayer].isPlaying) {
+					checkIfRoundFinished();
+					goToNextPlayer();
+				}
+
+				if (state.isRoundFinished) {
+					subtractAllScoresWithSmallestScore();
+					setTotalScore();
+					checkIfWinner();
+				}
+			
+				numberInputEl.focus();
+				scoreInput = '';
+			} else {
+				alert('Please add a number equal or greater than 0')
+			}
+		}
+	}
+
 	function checkIfRoundFinished() {
 		const lastPlayer = state.players.length - 1;
 
 		if (state.currentPlayer === lastPlayer) {
 			state.isRoundFinished = true;
-		}
-	}
-
-	function handleInputKeydown(event) {
-		if (event.key === 'Enter') {
-			if (scoreInput >= 0) {
-			addPointsToCurrentScore();
-			checkIfWinner();
-
-			if (!state.isWinner) {
-				goToNextPlayer();
-			} 
-		
-			scoreInput = 0;
-			} else {
-				alert('Please add a number equal or greater than 0')
-			}
 		}
 	}
 
@@ -219,6 +204,15 @@
 		state.players = state.players;
 	}
 
+	function handleAddPlayerKeydown(event) {
+		if (event.key === 'Enter') {
+			addNewPlayer();
+			nameInput = '';
+			nameInputEl.focus();
+			state.players = state.players;
+		}
+	}
+
 	function goToNextPlayer() {
 		if (state.currentPlayer === state.players.length - 1) {
 			state.currentPlayer = 0;
@@ -254,7 +248,6 @@
 					for (const player of state.players) {
 						if (player.id === loserID) {
 							player.isPlaying = false;
-							console.log('disabled')
 						}
 					}
 				}
@@ -294,6 +287,23 @@
 		state.players = state.players;
 	}
 
+	function returnGetLocalStorage() {
+		if (browser) {
+			const localState = window.localStorage.getItem('crokinoleState');
+			const parsedLocalState = JSON.parse(localState);
+			
+			if (localState) {
+				state = parsedLocalState;
+			} 
+		}
+	}
+
+	function storeLocally() {
+		if (browser) {
+			const serializedState = JSON.stringify(state);
+			window.localStorage.setItem('crokinoleState', serializedState);
+		}
+	}
 
 	returnGetLocalStorage();
 </script>
@@ -342,7 +352,7 @@
 						class="crokinole__input-number"
 						bind:value={scoreInput} 
 						bind:this={numberInputEl}
-						on:keydown={handleInputKeydown} 
+						on:keydown={handleScoreInputKeydown} 
 						step="5"
 					>
 
@@ -378,6 +388,7 @@
 		players={state.players}
 		{isEnoughPlayers}
 		{handleAddPlayerClick}
+		{handleAddPlayerKeydown}
 		{handleStartGameClick}
 		{handleDeleteClick}
 	/>
