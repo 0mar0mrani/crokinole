@@ -12,7 +12,7 @@
 </script>
 
 <div class={`crokinole__players ${visibility ? 'crokinole__players--open' : ''}`}>
-	<div class="crokinole__header">Change Players</div>
+	<div class="crokinole__header">Players</div>
 
 	<div class="crokinole__player-container">
 		{#each players as player, index}
