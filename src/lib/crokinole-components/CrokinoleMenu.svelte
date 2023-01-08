@@ -46,7 +46,9 @@
 
 	.crokinole__menu-item-button {
 		padding: 1rem 2rem;
-		border: solid 2px #212427;
+		background-color: #212427;
+		color: #f8e9cd;
+		border: none;
 		border-radius: 2rem;
 		align-self: center;
 	}

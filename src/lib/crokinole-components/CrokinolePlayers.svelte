@@ -107,13 +107,15 @@
 		border: solid 2px #212427;
 		padding-left: 0.5rem;
 		text-align: center;
+		margin-bottom: 2rem;
 	}
 	
 	.crokinole__button {
 		padding: 1rem 2rem;
-		border: solid 2px #212427;
+		background-color: #212427;
+		color: #f8e9cd;
+		border: none;
 		border-radius: 2rem;
-		margin-top: 2rem;
 	}
 
 	.crokinole__button--deactivated {

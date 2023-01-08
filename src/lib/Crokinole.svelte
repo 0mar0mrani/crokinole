@@ -16,43 +16,18 @@
 		scoreGoal : 100,
 		playersWithSameScore : [],
 	}
-
+	
 	let scoreInput = '';
 	let nameInput = '';
+	let numberInputEl;
+	let nameInputEl;
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
 		storeLocally();
 	}
 
-	let numberInputEl;
-	let nameInputEl;
 
-	function addNewPlayer(name = nameInput) {
-		const maxAmountOfPlayers = 4;
-		const isMaxPlayers = state.players.length < maxAmountOfPlayers;
-		const isValidInput = name !== '';
-
-		if (isMaxPlayers && isValidInput) {
-			const player = {
-				name: name,
-				totalScore: 0,
-				currentSore: 0,
-				id: state.players.length - 1,
-				isPlaying : true,
-			}
-	
-			state.players.push(player)
-		} else {
-			if (isMaxPlayers) {
-				alert('Max players is 4')
-			}
-			
-			if (isValidInput === false) {
-				alert('Please add a name')
-			}
-		}
-	}
 
 	function handleAddClick() {
 		if (scoreInput >= 0) {
@@ -180,6 +155,32 @@
 				if (copyPlayers[index].isPlaying) {
 					return copyPlayers[index].currentScore;
 				}
+			}
+		}
+	}
+
+	function addNewPlayer(name = nameInput) {
+		const maxAmountOfPlayers = 4;
+		const isMaxPlayers = state.players.length < maxAmountOfPlayers;
+		const isValidInput = name !== '';
+
+		if (isMaxPlayers && isValidInput) {
+			const player = {
+				name: name,
+				totalScore: 0,
+				currentSore: 0,
+				id: state.players.length - 1,
+				isPlaying : true,
+			}
+	
+			state.players.push(player)
+		} else {
+			if (isMaxPlayers) {
+				alert('Max players is 4')
+			}
+			
+			if (isValidInput === false) {
+				alert('Please add a name')
 			}
 		}
 	}
@@ -484,7 +485,9 @@
 
 	.crokinole__button {
 		padding: 1rem 2rem;
-		border: solid 2px #212427;
+		background-color: #212427;
+		color: #f8e9cd;
+		border: none;
 		border-radius: 2rem;
 	}
 
