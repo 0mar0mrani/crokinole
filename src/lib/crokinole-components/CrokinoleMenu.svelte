@@ -46,7 +46,7 @@
 
 	.crokinole__menu-item-button {
 		padding: 1rem 2rem;
-		border: solid 2px #000;
+		border: solid 2px #212427;
 		border-radius: 2rem;
 		align-self: center;
 	}
@@ -63,7 +63,7 @@
 	}
 
 	.crokinole__score-goal-input {
-		border: solid 2px #000;
+		border: solid 2px #212427;
 		width: 50%;
 		text-align: center; 
 	}

@@ -79,7 +79,7 @@
 		font-size: 4rem;
 		font-weight: 500;
 		margin-bottom: 2rem;
-		border-bottom: solid 2px #000;
+		border-bottom: solid 2px #212427;
 	}
 
 	.crokinole__player-container {
@@ -104,14 +104,14 @@
 	}
 
 	.crokinole__input-text {
-		border: solid 2px #000;
+		border: solid 2px #212427;
 		padding-left: 0.5rem;
 		text-align: center;
 	}
 	
 	.crokinole__button {
 		padding: 1rem 2rem;
-		border: solid 2px #000;
+		border: solid 2px #212427;
 		border-radius: 2rem;
 		margin-top: 2rem;
 	}
