@@ -156,7 +156,9 @@
 		const playerWithSmallestCurrentScore = getPlayerWithSmallestCurrentScore();
 
 		players.forEach(player => {
+			if (player.isPlaying) {
 			player.currentScore -= playerWithSmallestCurrentScore;
+			}
 		})
 
 		function getPlayerWithSmallestCurrentScore() {
