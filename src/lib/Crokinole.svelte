@@ -359,7 +359,7 @@
 					>
 
 					<button 
-					class="crokinole__button"
+					class={`crokinole__button ${scoreInput !== '' ? '' : 'crokinole__button--deactivated'}`}
 					on:click={handleAddClick}>
 						Add
 					</button>
@@ -486,6 +486,11 @@
 		padding: 1rem 2rem;
 		border: solid 2px #212427;
 		border-radius: 2rem;
+	}
+
+	.crokinole__button--deactivated {
+		opacity: 0.2;
+		pointer-events: none;
 	}
 
 	.crokinole__button--bottom {
