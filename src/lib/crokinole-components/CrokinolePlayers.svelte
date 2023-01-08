@@ -67,6 +67,7 @@
 		width: 100%;
 		background-color: #a3622c78;
 		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);;
 		z-index: 200;
 	}
 

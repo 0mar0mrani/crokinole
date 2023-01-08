@@ -27,6 +27,7 @@
 		z-index: 100;
 		background-color: #a3622c78;
 		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);;
 	} 
 
 	.crokinole__announcement--open {

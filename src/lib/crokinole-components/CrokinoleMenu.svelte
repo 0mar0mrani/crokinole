@@ -35,6 +35,7 @@
 		width: 100%;
 		background-color: #a3622c78;
 		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);;
 		transition: all 0.3s;
 		transform: translateX(100%);
 	}
