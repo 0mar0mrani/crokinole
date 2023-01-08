@@ -1,4 +1,5 @@
 <script>
+   import { browser } from '$app/environment';
 	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
 	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
 	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
@@ -20,6 +21,28 @@
 	let nameInput = '';
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
+	$: if (state) {
+		console.log(state)
+		storeLocally();
+	}
+
+	function returnGetLocalStorage() {
+		if (browser) {
+			const localState = window.localStorage.getItem('crokinoleState');
+			const parsedLocalState = JSON.parse(localState);
+			
+			if (localState) {
+				state = parsedLocalState;
+			} 
+		}
+	}
+
+	function storeLocally() {
+		if (browser) {
+			const serializedState = JSON.stringify(state);
+			window.localStorage.setItem('crokinoleState', serializedState);
+		}
+	}
 
 	let numberInputEl;
 	let nameInputEl;
@@ -71,7 +94,7 @@
 				setTotalScore();
 				checkIfWinner();
 			}
-
+			
 			numberInputEl.focus();
 			scoreInput = '';
 		} else {
@@ -161,7 +184,7 @@
 
 		state.players.forEach(player => {
 			if (player.isPlaying) {
-			player.currentScore -= playerWithSmallestCurrentScore;
+				player.currentScore -= playerWithSmallestCurrentScore;
 			}
 		})
 
@@ -271,6 +294,8 @@
 		state.players = state.players;
 	}
 
+
+	returnGetLocalStorage();
 </script>
 
 <section class="crokinole">
