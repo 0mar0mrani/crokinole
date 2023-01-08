@@ -405,6 +405,7 @@
 	:global(button, input) {
 		font-family: inherit;
 		font-size: inherit;
+		color: inherit;
 		cursor: pointer;
 		background-color: inherit;
 	}
