@@ -5,25 +5,28 @@
 	import MenuSVG from "./crokinole-components/MenuSVG.svelte";
 	import CloseSVG from "./crokinole-components/CloseSVG.svelte";
 
-	let players = [];
-	let currentPlayer = 0;
-	let scoreInput = '';
-	let isMenuOpen = false;
-	let isWinner = false;
-	let nameInput = '';
-	let addPlayers = false; // true
-	let isRoundFinished = true;
-	let scoreGoal = 100;
-	let playersWithSameScore = [];
+	let state = {
+		players : [],
+		currentPlayer : 0,
+		isMenuOpen : false,
+		isWinner : false,
+		addPlayers : true, 
+		isRoundFinished : true,
+		scoreGoal : 100,
+		playersWithSameScore : [],
+	}
 
-	$: isEnoughPlayers = players.length >= 2 ? true : false;
+	let scoreInput = '';
+	let nameInput = '';
+
+	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 
 	let numberInputEl;
 	let nameInputEl;
 
 	function addNewPlayer(name = nameInput) {
 		const maxAmountOfPlayers = 4;
-		const isMaxPlayers = players.length < maxAmountOfPlayers;
+		const isMaxPlayers = state.players.length < maxAmountOfPlayers;
 		const isValidInput = name !== '';
 
 		if (isMaxPlayers && isValidInput) {
@@ -31,11 +34,11 @@
 				name: name,
 				totalScore: 0,
 				currentSore: 0,
-				id: players.length - 1,
+				id: state.players.length - 1,
 				isPlaying : true,
 			}
 	
-			players.push(player)
+			state.players.push(player)
 		} else {
 			if (isMaxPlayers) {
 				alert('Max players is 4')
@@ -47,10 +50,10 @@
 		}
 	}
 
-	addNewPlayer('Omar');
-	addNewPlayer('Amalie');
-	addNewPlayer('Oro');
-	addNewPlayer('Elias');
+	// addNewPlayer('Omar');
+	// addNewPlayer('Amalie');
+	// addNewPlayer('Oro');
+	// addNewPlayer('Elias');
 
 	function handleAddClick() {
 		if (scoreInput >= 0) {
@@ -58,12 +61,12 @@
 			checkIfRoundFinished();
 			goToNextPlayer();
 			
-			while (!players[currentPlayer].isPlaying) {
+			while (!state.players[state.currentPlayer].isPlaying) {
 				checkIfRoundFinished();
 				goToNextPlayer();
 			}
 
-			if (isRoundFinished) {
+			if (state.isRoundFinished) {
 				subtractAllScoresWithSmallestScore();
 				setTotalScore();
 				checkIfWinner();
@@ -77,10 +80,10 @@
 	}
 
 	function checkIfRoundFinished() {
-		const lastPlayer = players.length - 1;
+		const lastPlayer = state.players.length - 1;
 
-		if (currentPlayer === lastPlayer) {
-			isRoundFinished = true;
+		if (state.currentPlayer === lastPlayer) {
+			state.isRoundFinished = true;
 		}
 	}
 
@@ -90,7 +93,7 @@
 			addPointsToCurrentScore();
 			checkIfWinner();
 
-			if (!isWinner) {
+			if (!state.isWinner) {
 				goToNextPlayer();
 			} 
 		
@@ -102,7 +105,7 @@
 	}
 
 	function handleNewRoundClick() {
-		isRoundFinished = false;
+		state.isRoundFinished = false;
 	}
 
 	function handleNewGameClick() {
@@ -110,38 +113,39 @@
 	}
  
 	function handleMenuButtonClick() {
-		isMenuOpen = !isMenuOpen;
+		state.isMenuOpen = !state.isMenuOpen;
 	}
 
 	function handleResetGameClick() {
 		initializeGame();
-		isMenuOpen = false;
+		state.isMenuOpen = false;
 	}
 
 	function handleChangePlayersClick() {
-		isMenuOpen = false;
-		addPlayers = true;
+		state.isMenuOpen = false;
+		state.addPlayers = true;
 	}
 
 	function handleStartGameClick() {
-		addPlayers = false;
+		initializeGame();
+		state.addPlayers = false;
 	}
 
 	function handleDeleteClick(event) {
 		const playerElementID = event.currentTarget.parentElement.dataset.id;
 		deletePlayer(playerElementID);
-		players = players;
+		state.players = state.players;
 	}
 
 	function handleScoreNumberInput(event) {
 		const inputValue = event.target.value;
 		if (inputValue > 0) {
-			scoreGoal = inputValue;
+			state.scoreGoal = inputValue;
 		}
 	}
 
 	function subtractAllScoresWithSmallestScore() {
-		const copyPlayers = [...players];
+		const copyPlayers = [...state.players];
 
 		copyPlayers.sort((a, b) => {
 			if (a.currentScore > b.currentScore) {
@@ -155,7 +159,7 @@
 
 		const playerWithSmallestCurrentScore = getPlayerWithSmallestCurrentScore();
 
-		players.forEach(player => {
+		state.players.forEach(player => {
 			if (player.isPlaying) {
 			player.currentScore -= playerWithSmallestCurrentScore;
 			}
@@ -171,37 +175,37 @@
 	}
 
 	function setTotalScore() {
-		players.forEach(player => {
+		state.players.forEach(player => {
 			player.totalScore += player.currentScore;
 			player.currentScore = 0;
 		})
 	}
 
 	function deletePlayer(id) {
-		players.splice(id, 1);
+		state.players.splice(id, 1);
 	}
 
 	function addPointsToCurrentScore() {
-		players[currentPlayer].currentScore = scoreInput;
+		state.players[state.currentPlayer].currentScore = scoreInput;
 	}
 
 	function handleAddPlayerClick() {
 		addNewPlayer();
 		nameInput = '';
 		nameInputEl.focus();
-		players = players;
+		state.players = state.players;
 	}
 
 	function goToNextPlayer() {
-		if (currentPlayer === players.length - 1) {
-			currentPlayer = 0;
+		if (state.currentPlayer === state.players.length - 1) {
+			state.currentPlayer = 0;
 		} else {
-			currentPlayer += 1;
+			state.currentPlayer += 1;
 		}
 	}
 
 	function checkIfWinner() {
-		const copyPlayers = [...players];
+		const copyPlayers = [...state.players];
 
 		copyPlayers.sort((a, b) => {
 			if (a.totalScore > b.totalScore) {
@@ -215,16 +219,16 @@
 
 		const playerWithBiggestScore = copyPlayers[0].totalScore;
 
-		if (playerWithBiggestScore >= scoreGoal) {
-			playersWithSameScore = [];
+		if (playerWithBiggestScore >= state.scoreGoal) {
+			state.playersWithSameScore = [];
 
 			for (let index = 0; index < copyPlayers.length; index += 1) {
 				if (copyPlayers[index].totalScore === playerWithBiggestScore) {
-					playersWithSameScore.push(copyPlayers[index])
+					state.playersWithSameScore.push(copyPlayers[index])
 				} else {
 					const loserID = copyPlayers[index].id;
 
-					for (const player of players) {
+					for (const player of state.players) {
 						if (player.id === loserID) {
 							player.isPlaying = false;
 							console.log('disabled')
@@ -233,19 +237,19 @@
 				}
 			}
 
-			if (playersWithSameScore.length === 1) {
-				isWinner = true;
+			if (state.playersWithSameScore.length === 1) {
+				state.isWinner = true;
 			} else {
-				isWinner = false;
+				state.isWinner = false;
 			}
 
 			const winnerID = copyPlayers[0].id;
 
 			setWinnerToCurrentPlayer();
 			function setWinnerToCurrentPlayer() {
-				players.forEach((player, index) => {
+				state.players.forEach((player, index) => {
 					if (player.id === winnerID) {
-						currentPlayer = index;
+						state.currentPlayer = index;
 					}
 				})
 			}
@@ -253,25 +257,25 @@
 	}
 
 	function initializeGame() {
-		currentPlayer = 0;
+		state.currentPlayer = 0;
 
-		for (const player of players) {
+		for (const player of state.players) {
 			player.currentScore = 0;
 			player.totalScore = 0;
 			player.isPlaying = true;
 		}
 
-		isWinner = false;
-		isRoundFinished = true;
-		playersWithSameScore = [];
-		players = players;
+		state.isWinner = false;
+		state.isRoundFinished = true;
+		state.playersWithSameScore = [];
+		state.players = state.players;
 	}
 
 </script>
 
 <section class="crokinole">
 	<button class="crokinole__menu-button" on:click={handleMenuButtonClick}>
-		{#if isMenuOpen}
+		{#if state.isMenuOpen}
 			<CloseSVG/>
 			{:else}
 			<MenuSVG/>
@@ -283,7 +287,7 @@
 			<div class="crokinole__header">Points</div>
 
 			<div class="crokinole__players">
-				{#each players as player}
+				{#each state.players as player}
 					<div class="crokinole__player">
 						<div class="crokinole__player-name">{player.name}</div>
 
@@ -295,7 +299,7 @@
 	</div>
 
 	<div class="crokinole__bottom-section">
-		{#if isRoundFinished}
+		{#if state.isRoundFinished}
 			<button
 			class="crokinole__button crokinole__button--bottom"
 			on:click={handleNewRoundClick}>
@@ -303,9 +307,9 @@
 			</button>
 		{/if}
 		
-		{#if !isRoundFinished && players.length > 0}
+		{#if !state.isRoundFinished && state.players.length > 0}
 			<div class="crokinole__input-name">
-				<div class="crokinole__name">{players[currentPlayer].name}</div>
+				<div class="crokinole__name">{state.players[state.currentPlayer].name}</div>
 				
 				<div class="crokinole__input-container">
 					<input 
@@ -328,25 +332,25 @@
 	</div>
 
 	<CrokinoleMenu 
-		visibility={isMenuOpen}
-		{scoreGoal}
+		visibility={state.isMenuOpen}
+		scoreGoal={state.scoreGoal}
 		handler={handleResetGameClick}
 		{handleChangePlayersClick}
 		{handleScoreNumberInput}
 	/>
 
 	<CrokinoleAnnouncement
-		visibility={isWinner}
+		visibility={state.isWinner}
 		handler={handleNewGameClick}
-		currentPlayer={players[currentPlayer]}
-		{players}
+		currentPlayer={state.players[state.currentPlayer]}
+		players={state.players}
 	/>
 
 	<CrokinolePlayers
-		visibility={addPlayers}
+		visibility={state.addPlayers}
 		bind:nameInputChild={nameInput}
 		bind:nameInputElChild={nameInputEl}
-		{players}
+		players={state.players}
 		{isEnoughPlayers}
 		{handleAddPlayerClick}
 		{handleStartGameClick}
