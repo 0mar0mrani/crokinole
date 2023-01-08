@@ -22,7 +22,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 100dvw;
+		width: 100vw;
 		height: 100dvh;
 		background-image: url('/src/assets/background.jpg');
 		background-size: cover;
