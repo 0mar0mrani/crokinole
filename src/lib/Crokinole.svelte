@@ -69,9 +69,10 @@
 				subtractAllScoresWithSmallestScore();
 				setTotalScore();
 				checkIfWinner();
+			} else {
+				numberInputEl.focus();
 			}
 			
-			numberInputEl.focus();
 			scoreInput = '';
 		} else {
 			alert('Please add a number equal or greater than 0')
@@ -94,9 +95,10 @@
 					subtractAllScoresWithSmallestScore();
 					setTotalScore();
 					checkIfWinner();
+				} else {
+					numberInputEl.focus();
 				}
 			
-				numberInputEl.focus();
 				scoreInput = '';
 			} else {
 				alert('Please add a number equal or greater than 0')
