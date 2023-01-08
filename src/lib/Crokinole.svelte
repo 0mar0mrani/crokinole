@@ -353,6 +353,8 @@
 					<input 
 						type="number" 
 						class="crokinole__input-number"
+						inputmode="numeric" 
+						pattern="[0-9]*"
 						bind:value={scoreInput} 
 						bind:this={numberInputEl}
 						on:keydown={handleScoreInputKeydown} 
