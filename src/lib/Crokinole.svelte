@@ -7,14 +7,15 @@
 	import CloseSVG from "./crokinole-components/CloseSVG.svelte";
 
 	let state = {
-		players : [],
-		currentPlayer : 0,
-		isMenuOpen : false,
-		isWinner : false,
-		addPlayers : true, 
-		isRoundFinished : true,
-		scoreGoal : 100,
-		playersWithSameScore : [],
+		players: [],
+		currentPlayer: 0,
+		isMenuOpen: false,
+		isWinner: false,
+		addPlayers: true, 
+		isRoundFinished: true,
+		scoreGoal: 100,
+		playersWithSameScore: [],
+		rounds: 1,
 	}
 	
 	let scoreInput = '';
@@ -26,8 +27,6 @@
 	$: if (state) {
 		storeLocally();
 	}
-
-
 
 	function handleAddClick() {
 		if (scoreInput >= 0) {
@@ -90,6 +89,8 @@
 	}
 
 	function handleNewRoundClick() {
+
+		state.rounds += 1; 
 		state.isRoundFinished = false;
 	}
 
@@ -285,6 +286,7 @@
 		}
 
 		state.isWinner = false;
+		state.rounds = 0;
 		state.isRoundFinished = true;
 		state.playersWithSameScore = [];
 		state.players = state.players;
@@ -322,7 +324,11 @@
 	
 	<div>
 		<div>
-			<div class="crokinole__header">Points</div>
+			<div class="crokinole__header-round-container">
+				<div class="crokinole__header">Points</div>
+
+				<div class="crokinole__round">{state.rounds === 0 ? '' : `Round ${state.rounds}`}</div>
+			</div>
 
 			<div class="crokinole__players">
 				{#each state.players as player}
@@ -450,11 +456,22 @@
 		cursor: pointer;
 	}
 
+	.crokinole__header-round-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		margin-bottom: 2rem;
+		border-bottom: solid 2px #212427;
+	}
+
+	.crokinole__round {
+		font-size: 2rem;
+		margin-bottom: 0.4rem;
+	}
+
 	.crokinole__header {
 		font-size: 4rem;
 		font-weight: 500;
-		margin-bottom: 2rem;
-		border-bottom: solid 2px #212427;
 	}
 
 	.crokinole__players {
