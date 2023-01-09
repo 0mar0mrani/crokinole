@@ -170,7 +170,7 @@
 				name: name,
 				totalScore: 0,
 				currentSore: 0,
-				id: state.players.length - 1,
+				id: Date.now(),
 				isPlaying : true,
 			}
 	
