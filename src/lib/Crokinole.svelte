@@ -1,12 +1,32 @@
-<script>
+<script lang="ts">
    import { browser } from '$app/environment';
 	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
 	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
 	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
-	import MenuSVG from "./crokinole-components/MenuSVG.svelte";
-	import CloseSVG from "./crokinole-components/CloseSVG.svelte";
+	import MenuSVG from "../assets/svg/MenuSVG.svelte";
+	import CloseSVG from "../assets/svg/CloseSVG.svelte";
 
-	let state = {
+	type Players = {
+		name: string,
+		totalScore: number,
+		currentSore: number,
+		id: string,
+		isPlaying : boolean,
+	}
+
+	type StateType = {
+		players: Players[],
+		currentPlayer: number,
+		isMenuOpen: boolean,
+		isWinner: boolean,
+		addPlayers: boolean,
+		isRoundFinished: boolean,
+		scoreGoal: number,
+		playersWithSameScore: object[],
+		rounds: number;
+	}
+	
+	let state: StateType = {
 		players: [],
 		currentPlayer: 0,
 		isMenuOpen: false,
@@ -15,13 +35,13 @@
 		isRoundFinished: true,
 		scoreGoal: 100,
 		playersWithSameScore: [],
-		rounds: 1,
+		rounds: 0,
 	}
 	
-	let scoreInput = '';
+	let scoreInput: string | number = '';
 	let nameInput = '';
-	let numberInputEl;
-	let nameInputEl;
+	let numberInputEl: object;
+	let nameInputEl: object;
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
@@ -53,7 +73,7 @@
 		}
 	}
 
-	function handleScoreInputKeydown(event) {
+	function handleScoreInputKeydown(event: keyboa) {
 		if (event.key === 'Enter') {
 			if (scoreInput >= 0) {
 				addPointsToCurrentScore();
@@ -117,16 +137,26 @@
 		state.addPlayers = false;
 	}
 
-	function handleDeleteClick(event) {
-		const playerElementID = event.currentTarget.parentElement.dataset.id;
-		deletePlayer(playerElementID);
-		state.players = state.players;
+	function handleDeleteClick(event: PointerEvent) {
+		const target = event.currentTarget.parentElement as HTMLButtonElement;
+
+		if (target) {
+			const playerElementID: string | undefined = target.dataset.id;
+
+			deletePlayer(playerElementID);
+			state.players = state.players;
+		}
 	}
 
-	function handleScoreNumberInput(event) {
-		const inputValue = event.target.value;
-		if (inputValue > 0) {
-			state.scoreGoal = inputValue;
+	function handleScoreNumberInput(event: InputEvent) {
+		const target = event.target as HTMLInputElement;
+
+		if (target) {
+			const inputValue: number  = Number(target.value);
+
+			if (inputValue > 0) {
+				state.scoreGoal = inputValue;
+			}
 		}
 	}
 
@@ -208,7 +238,8 @@
 		state.players = state.players;
 	}
 
-	function handleAddPlayerKeydown(event) {
+	function handleAddPlayerKeydown(event: KeyboardEvent) {
+
 		if (event.key === 'Enter') {
 			addNewPlayer();
 			nameInput = '';
@@ -294,7 +325,7 @@
 
 	function returnGetLocalStorage() {
 		if (browser) {
-			const localState = window.localStorage.getItem('crokinoleState');
+			const localState: string | null = window.localStorage.getItem('crokinoleState');
 			const parsedLocalState = JSON.parse(localState);
 			
 			if (localState) {

@@ -1,15 +1,23 @@
-<script>
-	import CloseSVG from "./CloseSVG.svelte";
-
-	export let players;
-	export let visibility;
-	export let handleAddPlayerClick;
-	export let handleAddPlayerKeydown;
-	export let nameInputChild;
-	export let handleStartGameClick;
-	export let handleDeleteClick;
-	export let isEnoughPlayers;
-	export let nameInputElChild;
+<script lang="ts">
+	import CloseSVG from "../../assets/svg/CloseSVG.svelte";
+	
+	type Players = {
+		name: string,
+		totalScore: number,
+		currentSore: number,
+		id: string,
+		isPlaying : boolean,
+	}
+	
+	export let handleAddPlayerClick: void;
+	export let handleAddPlayerKeydown: void;
+	export let handleStartGameClick: void;
+	export let handleDeleteClick: void;
+	export let players: Players[];
+	export let visibility: boolean;
+	export let isEnoughPlayers: boolean;
+	export let nameInputChild: string;
+	export let nameInputElChild: object;
 </script>
 
 <div class={`crokinole__players ${visibility ? 'crokinole__players--open' : ''}`}>

@@ -1,9 +1,9 @@
-<script>
-	export let visibility;
-	export let handler;
-	export let handleChangePlayersClick;
-	export let handleScoreNumberInput;
-	export let scoreGoal;
+<script lang="ts">
+	export let handler: void;
+	export let handleChangePlayersClick: void;
+	export let handleScoreNumberInput: void;
+	export let visibility: boolean;
+	export let scoreGoal: number;
 </script>
 
 <div class={`crokinole__menu ${visibility ? 'crokinole__menu--open' : ''}`}>

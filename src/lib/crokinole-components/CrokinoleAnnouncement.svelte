@@ -1,8 +1,16 @@
-<script>
-	export let visibility;
-	export let handler;
-	export let currentPlayer;
-	export let players;
+<script lang="ts">
+	type Players = {
+		name: string,
+		totalScore: number,
+		currentSore: number,
+		id: string,
+		isPlaying : boolean,
+	}
+
+	export let handler: void;
+	export let visibility: boolean;
+	export let currentPlayer: Players;
+	export let players: Players[];
 </script>
 
 {#if players.length > 0}
