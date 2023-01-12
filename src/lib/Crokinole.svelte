@@ -14,6 +14,11 @@
 		isPlaying : boolean,
 	}
 
+	type Games = {
+		rounds: number;
+		ranking: Player[];
+	}
+
 	type StateType = {
 		players: Player[],
 		currentPlayer: number,
@@ -24,6 +29,7 @@
 		scoreGoal: number,
 		playersWithSameScore: Player[],
 		rounds: number;
+		oldGames: Games[];
 	}
 	
 	let state: StateType = {
@@ -36,6 +42,7 @@
 		scoreGoal: 100,
 		playersWithSameScore: [],
 		rounds: 0,
+		oldGames: [],
 	}
 	
 	let scoreInput = '';
