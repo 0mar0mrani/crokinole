@@ -21,6 +21,7 @@
 
 	type StateType = {
 		players: Player[],
+		playersScoreSorted: Player[];
 		currentPlayer: number,
 		isMenuOpen: boolean,
 		isWinner: boolean,
@@ -34,6 +35,7 @@
 	
 	let state: StateType = {
 		players: [],
+		playersScoreSorted: [],
 		currentPlayer: 0,
 		isMenuOpen: false,
 		isWinner: false,
@@ -116,7 +118,6 @@
 	}
 
 	function handleNewRoundClick() {
-
 		state.rounds += 1; 
 		state.isRoundFinished = false;
 	}
@@ -170,9 +171,9 @@
 	}
 
 	function subtractAllScoresWithSmallestScore() {
-		const copyPlayers = [...state.players];
+		state.playersScoreSorted = [...state.players];
 
-		copyPlayers.sort((a: Player, b: Player) => {
+		state.playersScoreSorted.sort((a: Player, b: Player) => {
 			if (a.currentScore > b.currentScore) {
 				return -1;
 			}
@@ -194,9 +195,9 @@
 
 
 		function returnGetPlayerWithSmallestCurrentScore(): number | undefined {
-			for (let index = copyPlayers.length - 1; index >= 0; index -= 1) {
-				if (copyPlayers[index].isPlaying) {
-					return copyPlayers[index].currentScore;
+			for (let index = state.playersScoreSorted.length - 1; index >= 0; index -= 1) {
+				if (state.playersScoreSorted[index].isPlaying) {
+					return state.playersScoreSorted[index].currentScore;
 				}
 			}
 		}
@@ -271,9 +272,9 @@
 	}
 
 	function checkIfWinner() {
-		const copyPlayers = [...state.players];
+		state.playersScoreSorted = [...state.players];
 
-		copyPlayers.sort((a: Player, b: Player) => {
+		state.playersScoreSorted.sort((a: Player, b: Player) => {
 			if (a.totalScore > b.totalScore) {
 				return -1;
 			}
@@ -283,16 +284,16 @@
 			}
 		})
 
-		const playerWithBiggestScore = copyPlayers[0].totalScore;
+		const playerWithBiggestScore = state.playersScoreSorted[0].totalScore;
 
 		if (playerWithBiggestScore >= state.scoreGoal) {
 			state.playersWithSameScore = [];
 
-			for (let index = 0; index < copyPlayers.length; index += 1) {
-				if (copyPlayers[index].totalScore === playerWithBiggestScore) {
-					state.playersWithSameScore.push(copyPlayers[index])
+			for (let index = 0; index < state.playersScoreSorted.length; index += 1) {
+				if (state.playersScoreSorted[index].totalScore === playerWithBiggestScore) {
+					state.playersWithSameScore.push(state.playersScoreSorted[index])
 				} else {
-					const loserID = copyPlayers[index].id;
+					const loserID = state.playersScoreSorted[index].id;
 
 					for (const player of state.players) {
 						if (player.id === loserID) {
@@ -308,7 +309,7 @@
 				state.isWinner = false;
 			}
 
-			const winnerID = copyPlayers[0].id;
+			const winnerID = state.playersScoreSorted[0].id;
 
 			setWinnerToCurrentPlayer();
 			function setWinnerToCurrentPlayer() {
