@@ -6,23 +6,23 @@
 	import MenuSVG from "../assets/svg/MenuSVG.svelte";
 	import CloseSVG from "../assets/svg/CloseSVG.svelte";
 
-	type Players = {
+	type Player = {
 		name: string,
 		totalScore: number,
-		currentSore: number,
+		currentScore: number,
 		id: string,
 		isPlaying : boolean,
 	}
 
 	type StateType = {
-		players: Players[],
+		players: Player[],
 		currentPlayer: number,
 		isMenuOpen: boolean,
 		isWinner: boolean,
 		addPlayers: boolean,
 		isRoundFinished: boolean,
 		scoreGoal: number,
-		playersWithSameScore: object[],
+		playersWithSameScore: Player[],
 		rounds: number;
 	}
 	
@@ -38,10 +38,10 @@
 		rounds: 0,
 	}
 	
-	let scoreInput: string | number = '';
+	let scoreInput = '';
 	let nameInput = '';
-	let numberInputEl: object;
-	let nameInputEl: object;
+	let numberInputEl: HTMLElement;
+	let nameInputEl: HTMLElement;
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
@@ -49,7 +49,7 @@
 	}
 
 	function handleAddClick() {
-		if (scoreInput >= 0) {
+		if (Number(scoreInput) >= 0) {
 			addPointsToCurrentScore();
 			checkIfRoundFinished();
 			goToNextPlayer();
@@ -73,9 +73,9 @@
 		}
 	}
 
-	function handleScoreInputKeydown(event: keyboa) {
+	function handleScoreInputKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
-			if (scoreInput >= 0) {
+			if (Number(scoreInput) >= 0) {
 				addPointsToCurrentScore();
 				checkIfRoundFinished();
 				goToNextPlayer();
@@ -138,13 +138,15 @@
 	}
 
 	function handleDeleteClick(event: PointerEvent) {
-		const target = event.currentTarget.parentElement as HTMLButtonElement;
+		const target = event.currentTarget as HTMLButtonElement;
 
-		if (target) {
-			const playerElementID: string | undefined = target.dataset.id;
+		if (target.parentElement) {
+			const playerElementID: string | undefined = target.parentElement.dataset.id;
 
-			deletePlayer(playerElementID);
-			state.players = state.players;
+			if (playerElementID) {
+				deletePlayer(playerElementID);
+				state.players = state.players;
+			}
 		}
 	}
 
@@ -163,7 +165,7 @@
 	function subtractAllScoresWithSmallestScore() {
 		const copyPlayers = [...state.players];
 
-		copyPlayers.sort((a, b) => {
+		copyPlayers.sort((a: Player, b: Player) => {
 			if (a.currentScore > b.currentScore) {
 				return -1;
 			}
@@ -173,15 +175,18 @@
 			}
 		})
 
-		const playerWithSmallestCurrentScore = getPlayerWithSmallestCurrentScore();
+		const playerWithSmallestCurrentScore = returnGetPlayerWithSmallestCurrentScore();
 
-		state.players.forEach(player => {
-			if (player.isPlaying) {
-				player.currentScore -= playerWithSmallestCurrentScore;
-			}
-		})
+		if (playerWithSmallestCurrentScore) {
+			state.players.forEach(player => {
+				if (player.isPlaying) {
+					player.currentScore -= playerWithSmallestCurrentScore;
+				}
+			})
+		}
 
-		function getPlayerWithSmallestCurrentScore() {
+
+		function returnGetPlayerWithSmallestCurrentScore(): number | undefined {
 			for (let index = copyPlayers.length - 1; index >= 0; index -= 1) {
 				if (copyPlayers[index].isPlaying) {
 					return copyPlayers[index].currentScore;
@@ -190,21 +195,21 @@
 		}
 	}
 
-	function addNewPlayer(name = nameInput) {
+	function addNewPlayer() {
 		const maxAmountOfPlayers = 4;
 		const isMaxPlayers = state.players.length < maxAmountOfPlayers;
-		const isValidInput = name !== '';
+		const isValidInput = nameInput !== '';
 
 		if (isMaxPlayers && isValidInput) {
-			const player = {
-				name: name,
+			const newPlayer = {
+				name: nameInput,
 				totalScore: 0,
-				currentSore: 0,
-				id: Date.now(),
+				currentScore: 0,
+				id: String(Date.now()),
 				isPlaying : true,
 			}
 	
-			state.players.push(player)
+			state.players.push(newPlayer)
 		} else {
 			if (isMaxPlayers) {
 				alert('Max players is 4')
@@ -223,12 +228,14 @@
 		})
 	}
 
-	function deletePlayer(id) {
-		state.players.splice(id, 1);
+	function deletePlayer(id: string) {
+		const idToNumber = Number(id);
+
+		state.players.splice(idToNumber, 1);
 	}
 
 	function addPointsToCurrentScore() {
-		state.players[state.currentPlayer].currentScore = scoreInput;
+		state.players[state.currentPlayer].currentScore = Number(scoreInput);
 	}
 
 	function handleAddPlayerClick() {
@@ -259,7 +266,7 @@
 	function checkIfWinner() {
 		const copyPlayers = [...state.players];
 
-		copyPlayers.sort((a, b) => {
+		copyPlayers.sort((a: Player, b: Player) => {
 			if (a.totalScore > b.totalScore) {
 				return -1;
 			}
@@ -326,9 +333,9 @@
 	function returnGetLocalStorage() {
 		if (browser) {
 			const localState: string | null = window.localStorage.getItem('crokinoleState');
-			const parsedLocalState = JSON.parse(localState);
 			
 			if (localState) {
+				const parsedLocalState = JSON.parse(localState);
 				state = parsedLocalState;
 			} 
 		}
