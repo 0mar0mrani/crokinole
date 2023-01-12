@@ -15,8 +15,9 @@
 	}
 
 	type Games = {
+		date: number;
 		rounds: number;
-		ranking: Player[];
+		score: Player[];
 	}
 
 	type StateType = {
@@ -30,7 +31,7 @@
 		scoreGoal: number,
 		playersWithSameScore: Player[],
 		rounds: number;
-		oldGames: Games[];
+		previousGames: Games[];
 	}
 	
 	let state: StateType = {
@@ -44,7 +45,7 @@
 		scoreGoal: 100,
 		playersWithSameScore: [],
 		rounds: 0,
-		oldGames: [],
+		previousGames: [],
 	}
 	
 	let scoreInput = '';
@@ -54,7 +55,7 @@
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
-		storeLocally();
+		// storeLocally();
 	}
 
 	function handleAddClick() {
@@ -74,6 +75,16 @@
 				checkIfWinner();
 			} else {
 				numberInputEl.focus();
+			}
+
+			if (state.isWinner) {
+				const justPlayedGame = {
+					date: Date.now(),
+					rounds: state.rounds,
+					score: [...state.playersScoreSorted],
+				};
+
+				state.previousGames.push(justPlayedGame);
 			}
 			
 			scoreInput = '';
