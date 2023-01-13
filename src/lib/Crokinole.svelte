@@ -15,7 +15,7 @@
 		isMenuOpen: false,
 		isPreviousGamesOpen: false,
 		isWinner: false,
-		addPlayers: true, 
+		isAddPlayersOpen: true, 
 		isRoundFinished: true,
 		scoreGoal: 100,
 		playersWithSameScore: [],
@@ -96,12 +96,12 @@
 
 	function handleChangePlayersClick() {
 		state.isMenuOpen = false;
-		state.addPlayers = true;
+		state.isAddPlayersOpen = true;
 	}
 
 	function handleStartGameClick() {
 		initializeGame();
-		state.addPlayers = false;
+		state.isAddPlayersOpen = false;
 	}
 
 	function handleDeleteClick(event: PointerEvent) {
@@ -447,7 +447,7 @@
 	/>
 
 	<CrokinolePlayers
-		visibility={state.addPlayers}
+		isAddPlayersOpen={state.isAddPlayersOpen}
 		bind:nameInputChild={nameInput}
 		bind:nameInputElChild={nameInputEl}
 		players={state.players}
