@@ -14,8 +14,9 @@
 		isPlaying : boolean,
 	}
 
-	type Games = {
-		date: number;
+	type Game = {
+		time: string
+		date: string;
 		rounds: number;
 		score: Player[];
 	}
