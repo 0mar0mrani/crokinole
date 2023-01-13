@@ -1,20 +1,7 @@
 <script lang="ts">
-	type Player = {
-		name: string,
-		totalScore: number,
-		currentScore: number,
-		id: string,
-		isPlaying : boolean,
-	}
-	
-	type Game = {
-		time: string
-		date: string;
-		rounds: number;
-		score: Player[];
-	}
+	import type { GameType } from '../../types';
 
-	export let previousGame: Game;
+	export let previousGame: GameType;
 	let isGameOpen = false;
 
 	function handlePreviousClick() {

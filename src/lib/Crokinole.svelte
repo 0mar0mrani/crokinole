@@ -6,37 +6,8 @@
 	import CrokinolePreviousGames from "./crokinole-components/CrokinolePreviousGames.svelte";
 	import MenuSVG from "../assets/svg/MenuSVG.svelte";
 	import CloseSVG from "../assets/svg/CloseSVG.svelte";
+	import type { PlayerType, StateType} from '../types'
 
-	type Player = {
-		name: string,
-		totalScore: number,
-		currentScore: number,
-		id: string,
-		isPlaying : boolean,
-	}
-
-	type Game = {
-		time: string
-		date: string;
-		rounds: number;
-		score: Player[];
-	}
-
-	type StateType = {
-		players: Player[],
-		playersScoreSorted: Player[];
-		currentPlayer: number,
-		isMenuOpen: boolean,
-		isPreviousGamesOpen: boolean;
-		isWinner: boolean,
-		addPlayers: boolean,
-		isRoundFinished: boolean,
-		scoreGoal: number,
-		playersWithSameScore: Player[],
-		rounds: number;
-		previousGames: Game[];
-	}
-	
 	let state: StateType = {
 		players: [],
 		playersScoreSorted: [],
@@ -177,7 +148,7 @@
 	function subtractAllScoresWithSmallestScore() {
 		state.playersScoreSorted = [...state.players];
 
-		state.playersScoreSorted.sort((a: Player, b: Player) => {
+		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
 			if (a.currentScore > b.currentScore) {
 				return -1;
 			}
@@ -310,7 +281,7 @@
 	function checkIfWinner() {
 		state.playersScoreSorted = [...state.players];
 
-		state.playersScoreSorted.sort((a: Player, b: Player) => {
+		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
 			if (a.totalScore > b.totalScore) {
 				return -1;
 			}

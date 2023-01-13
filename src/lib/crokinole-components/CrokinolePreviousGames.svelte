@@ -1,23 +1,9 @@
 <script lang="ts">
 	import CrokinolePreviousGame from "./CrokinolePreviousGame.svelte";
-
-	type Player = {
-		name: string,
-		totalScore: number,
-		currentScore: number,
-		id: string,
-		isPlaying : boolean,
-	}	
-	
-	type Game = {
-		time: string
-		date: string;
-		rounds: number;
-		score: Player[];
-	}
+	import type { GameType } from '../../types';
 
 	export let isPreviousGamesOpen: boolean;
-	export let previousGames: Game[];
+	export let previousGames: GameType[];
 	export let handleBackClick: void;
 </script>
 

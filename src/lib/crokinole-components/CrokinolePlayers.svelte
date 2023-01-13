@@ -1,19 +1,12 @@
 <script lang="ts">
 	import CloseSVG from "../../assets/svg/CloseSVG.svelte";
-	
-	type Players = {
-		name: string,
-		totalScore: number,
-		currentSore: number,
-		id: string,
-		isPlaying : boolean,
-	}
+	import type { PlayerType } from '../../types';
 	
 	export let handleAddPlayerClick: void;
 	export let handleAddPlayerKeydown: void;
 	export let handleStartGameClick: void;
 	export let handleDeleteClick: void;
-	export let players: Players[];
+	export let players: PlayerType[];
 	export let visibility: boolean;
 	export let isEnoughPlayers: boolean;
 	export let nameInputChild: string;
