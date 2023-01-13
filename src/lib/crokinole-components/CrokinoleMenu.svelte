@@ -1,33 +1,40 @@
 <script lang="ts">
-	export let handler: void;
+	export let handleResetGameClick: void;
 	export let handleChangePlayersClick: void;
 	export let handleScoreNumberInput: void;
 	export let handlePreviousScoreClick: void;
-	export let visibility: boolean;
+	export let isMenuOpen: boolean;
 	export let scoreGoal: number;
 </script>
 
-<div class={`crokinole__menu ${visibility ? 'crokinole__menu--open' : ''}`}>
-	<button class="crokinole__menu-item-button" on:click={handler}>Reset Game</button>
+<div class={`menu ${isMenuOpen ? 'menu--open' : ''}`}>
+	<button class="menu__button" on:click={handleResetGameClick}>
+		Reset Game
+	</button>
 
-	<button class="crokinole__menu-item-button" on:click={handleChangePlayersClick}>Change Players</button>
+	<button class="menu__button" on:click={handleChangePlayersClick}>
+		Change Players
+	</button>
 
-	<button class="crokinole__menu-item-button" on:click={handlePreviousScoreClick}>Previous Games</button>
+	<button class="menu__button" on:click={handlePreviousScoreClick}>
+		Previous Games
+	</button>
 
-	<div class="crokinole__score-goal-container">
-		<div class="crokinole__score-goal-header">Score Goal</div>
+	<div class="menu__score-goal-container">
+		<div class="menu__score-goal-header">Score Goal</div>
 
 		<input 
-		type="number" 
-		class="crokinole__score-goal-input"
-		value={scoreGoal} 
-		on:input={handleScoreNumberInput}>
+			type="number" 
+			class="menu__score-goal-input"
+			value={scoreGoal} 
+			on:input={handleScoreNumberInput}
+		>
 	</div>
 
 </div>
 
 <style>
-	.crokinole__menu {
+	.menu {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly;
@@ -43,11 +50,11 @@
 		transform: translateX(100%);
 	}
 
-	.crokinole__menu--open {
+	.menu--open {
 		transform: translateX(0);
 	}
 
-	.crokinole__menu-item-button {
+	.menu__button {
 		padding: 1rem 2rem;
 		background-color: #212427;
 		color: #f8e9cd;
@@ -56,18 +63,18 @@
 		align-self: center;
 	}
 
-	.crokinole__score-goal-container {
+	.menu__score-goal-container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 	}
 
-	.crokinole__score-goal-header {
+	.menu__score-goal-header {
 		text-align: center;
 		margin-bottom: 0.5rem;
 	}
 
-	.crokinole__score-goal-input {
+	.menu__score-goal-input {
 		border: solid 2px #212427;
 		width: 50%;
 		text-align: center; 

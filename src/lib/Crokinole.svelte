@@ -431,9 +431,9 @@
 	</div>
 
 	<CrokinoleMenu 
-		visibility={state.isMenuOpen}
+		isMenuOpen={state.isMenuOpen}
 		scoreGoal={state.scoreGoal}
-		handler={handleResetGameClick}
+		{handleResetGameClick}
 		{handleChangePlayersClick}
 		{handleScoreNumberInput}
 		{handlePreviousScoreClick}
