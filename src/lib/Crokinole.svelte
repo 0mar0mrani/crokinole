@@ -6,7 +6,6 @@
 	import CrokinolePreviousGames from "./crokinole-components/CrokinolePreviousGames.svelte";
 	import MenuSVG from "../assets/svg/MenuSVG.svelte";
 	import CloseSVG from "../assets/svg/CloseSVG.svelte";
-   import { json } from '@sveltejs/kit';
 
 	type Player = {
 		name: string,
