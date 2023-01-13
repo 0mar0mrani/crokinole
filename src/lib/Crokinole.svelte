@@ -79,13 +79,35 @@
 			}
 
 			if (state.isWinner) {
+				const copyPlayersScoredSorted = JSON.stringify(state.playersScoreSorted);
+
+				const currentTime = Date.now();
+				const date = new Date(currentTime);
+
+				const day = date.getDate();
+				const month = date.getMonth() + 1;
+				const year = date.getFullYear();
+
+				const minutes = date.getMinutes();
+				const hours = date.getHours();
+
+				const costumeDate = `${day}/${month}/${year}`;
+				let costumeTime;
+				
+				if (minutes > 9) {
+					costumeTime = `${hours}:${minutes}`;
+				} else {
+					costumeTime = `${hours}:0${minutes}`;
+				}
+
 				const justPlayedGame = {
-					date: Date.now(),
+					date: costumeDate,
+					time: costumeTime,
 					rounds: state.rounds,
-					score: [...state.playersScoreSorted],
+					score: JSON.parse(copyPlayersScoredSorted),
 				};
 
-				state.previousGames.push(justPlayedGame);
+				state.previousGames.unshift(justPlayedGame);
 			}
 			
 			scoreInput = '';
@@ -96,28 +118,7 @@
 
 	function handleScoreInputKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
-			if (Number(scoreInput) >= 0) {
-				addPointsToCurrentScore();
-				checkIfRoundFinished();
-				goToNextPlayer();
-			
-				while (!state.players[state.currentPlayer].isPlaying) {
-					checkIfRoundFinished();
-					goToNextPlayer();
-				}
-
-				if (state.isRoundFinished) {
-					subtractAllScoresWithSmallestScore();
-					setTotalScore();
-					checkIfWinner();
-				} else {
-					numberInputEl.focus();
-				}
-			
-				scoreInput = '';
-			} else {
-				alert('Please add a number equal or greater than 0')
-			}
+			handleAddClick();
 		}
 	}
 
