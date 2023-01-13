@@ -3,8 +3,10 @@
 	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
 	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
 	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
+	import CrokinolePreviousGames from "./crokinole-components/CrokinolePreviousGames.svelte";
 	import MenuSVG from "../assets/svg/MenuSVG.svelte";
 	import CloseSVG from "../assets/svg/CloseSVG.svelte";
+   import { json } from '@sveltejs/kit';
 
 	type Player = {
 		name: string,
@@ -26,13 +28,14 @@
 		playersScoreSorted: Player[];
 		currentPlayer: number,
 		isMenuOpen: boolean,
+		isPreviousGamesOpen: boolean;
 		isWinner: boolean,
 		addPlayers: boolean,
 		isRoundFinished: boolean,
 		scoreGoal: number,
 		playersWithSameScore: Player[],
 		rounds: number;
-		previousGames: Games[];
+		previousGames: Game[];
 	}
 	
 	let state: StateType = {
@@ -40,6 +43,7 @@
 		playersScoreSorted: [],
 		currentPlayer: 0,
 		isMenuOpen: false,
+		isPreviousGamesOpen: false,
 		isWinner: false,
 		addPlayers: true, 
 		isRoundFinished: true,
@@ -458,6 +462,7 @@
 		handler={handleResetGameClick}
 		{handleChangePlayersClick}
 		{handleScoreNumberInput}
+		{handlePreviousScoreClick}
 	/>
 
 	<CrokinoleAnnouncement
@@ -477,6 +482,12 @@
 		{handleAddPlayerKeydown}
 		{handleStartGameClick}
 		{handleDeleteClick}
+	/>
+	
+	<CrokinolePreviousGames
+		previousGames={state.previousGames}
+		isPreviousGamesOpen={state.isPreviousGamesOpen}
+		{handleBackClick}
 	/>
 </section>
 
