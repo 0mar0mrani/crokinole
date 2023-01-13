@@ -183,6 +183,22 @@
 		}
 	}
 
+	function handlePreviousScoreClick(event: PointerEvent) {
+		const target = event.target as HTMLButtonElement;
+
+		if (target) {
+			state.isPreviousGamesOpen = true;
+		}
+	}
+
+	function handleBackClick(event: PointerEvent) {
+		const target = event.target as HTMLButtonElement;
+
+		if (target) {
+			state.isPreviousGamesOpen = false;
+		}
+	}
+
 	function subtractAllScoresWithSmallestScore() {
 		state.playersScoreSorted = [...state.players];
 
