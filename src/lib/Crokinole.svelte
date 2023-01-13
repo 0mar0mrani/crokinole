@@ -60,7 +60,7 @@
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
-		// storeLocally();
+		storeLocally();
 	}
 
 	function handleAddClick() {
@@ -83,35 +83,7 @@
 			}
 
 			if (state.isWinner) {
-				const copyPlayersScoredSorted = JSON.stringify(state.playersScoreSorted);
-
-				const currentTime = Date.now();
-				const date = new Date(currentTime);
-
-				const day = date.getDate();
-				const month = date.getMonth() + 1;
-				const year = date.getFullYear();
-
-				const minutes = date.getMinutes();
-				const hours = date.getHours();
-
-				const costumeDate = `${day}/${month}/${year}`;
-				let costumeTime;
-				
-				if (minutes > 9) {
-					costumeTime = `${hours}:${minutes}`;
-				} else {
-					costumeTime = `${hours}:0${minutes}`;
-				}
-
-				const justPlayedGame = {
-					date: costumeDate,
-					time: costumeTime,
-					rounds: state.rounds,
-					score: JSON.parse(copyPlayersScoredSorted),
-				};
-
-				state.previousGames.unshift(justPlayedGame);
+				storePlayedGameToPreviousGames();
 			}
 			
 			scoreInput = '';
@@ -302,6 +274,38 @@
 		} else {
 			state.currentPlayer += 1;
 		}
+	}
+
+	function storePlayedGameToPreviousGames() {
+		const copyPlayersScoredSorted = JSON.stringify(state.playersScoreSorted);
+
+		const currentTime = Date.now();
+		const date = new Date(currentTime);
+
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+
+		const minutes = date.getMinutes();
+		const hours = date.getHours();
+
+		const costumeDate = `${day}/${month}/${year}`;
+		let costumeTime;
+		
+		if (minutes > 9) {
+			costumeTime = `${hours}:${minutes}`;
+		} else {
+			costumeTime = `${hours}:0${minutes}`;
+		}
+
+		const justPlayedGame = {
+			date: costumeDate,
+			time: costumeTime,
+			rounds: state.rounds,
+			score: JSON.parse(copyPlayersScoredSorted),
+		};
+
+		state.previousGames.unshift(justPlayedGame);
 	}
 
 	function checkIfWinner() {
