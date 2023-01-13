@@ -3,39 +3,24 @@
 	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
 	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
 	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
+	import CrokinolePreviousGames from "./crokinole-components/CrokinolePreviousGames.svelte";
 	import MenuSVG from "../assets/svg/MenuSVG.svelte";
 	import CloseSVG from "../assets/svg/CloseSVG.svelte";
+	import type { PlayerType, StateType} from '../types'
 
-	type Player = {
-		name: string,
-		totalScore: number,
-		currentScore: number,
-		id: string,
-		isPlaying : boolean,
-	}
-
-	type StateType = {
-		players: Player[],
-		currentPlayer: number,
-		isMenuOpen: boolean,
-		isWinner: boolean,
-		addPlayers: boolean,
-		isRoundFinished: boolean,
-		scoreGoal: number,
-		playersWithSameScore: Player[],
-		rounds: number;
-	}
-	
 	let state: StateType = {
 		players: [],
+		playersScoreSorted: [],
 		currentPlayer: 0,
 		isMenuOpen: false,
+		isPreviousGamesOpen: false,
 		isWinner: false,
 		addPlayers: true, 
 		isRoundFinished: true,
 		scoreGoal: 100,
 		playersWithSameScore: [],
 		rounds: 0,
+		previousGames: [],
 	}
 	
 	let scoreInput = '';
@@ -66,6 +51,10 @@
 			} else {
 				numberInputEl.focus();
 			}
+
+			if (state.isWinner) {
+				storePlayedGameToPreviousGames();
+			}
 			
 			scoreInput = '';
 		} else {
@@ -75,28 +64,7 @@
 
 	function handleScoreInputKeydown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
-			if (Number(scoreInput) >= 0) {
-				addPointsToCurrentScore();
-				checkIfRoundFinished();
-				goToNextPlayer();
-			
-				while (!state.players[state.currentPlayer].isPlaying) {
-					checkIfRoundFinished();
-					goToNextPlayer();
-				}
-
-				if (state.isRoundFinished) {
-					subtractAllScoresWithSmallestScore();
-					setTotalScore();
-					checkIfWinner();
-				} else {
-					numberInputEl.focus();
-				}
-			
-				scoreInput = '';
-			} else {
-				alert('Please add a number equal or greater than 0')
-			}
+			handleAddClick();
 		}
 	}
 
@@ -109,7 +77,6 @@
 	}
 
 	function handleNewRoundClick() {
-
 		state.rounds += 1; 
 		state.isRoundFinished = false;
 	}
@@ -162,10 +129,26 @@
 		}
 	}
 
-	function subtractAllScoresWithSmallestScore() {
-		const copyPlayers = [...state.players];
+	function handlePreviousScoreClick(event: PointerEvent) {
+		const target = event.target as HTMLButtonElement;
 
-		copyPlayers.sort((a: Player, b: Player) => {
+		if (target) {
+			state.isPreviousGamesOpen = true;
+		}
+	}
+
+	function handleBackClick(event: PointerEvent) {
+		const target = event.target as HTMLButtonElement;
+
+		if (target) {
+			state.isPreviousGamesOpen = false;
+		}
+	}
+
+	function subtractAllScoresWithSmallestScore() {
+		state.playersScoreSorted = [...state.players];
+
+		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
 			if (a.currentScore > b.currentScore) {
 				return -1;
 			}
@@ -187,9 +170,9 @@
 
 
 		function returnGetPlayerWithSmallestCurrentScore(): number | undefined {
-			for (let index = copyPlayers.length - 1; index >= 0; index -= 1) {
-				if (copyPlayers[index].isPlaying) {
-					return copyPlayers[index].currentScore;
+			for (let index = state.playersScoreSorted.length - 1; index >= 0; index -= 1) {
+				if (state.playersScoreSorted[index].isPlaying) {
+					return state.playersScoreSorted[index].currentScore;
 				}
 			}
 		}
@@ -263,10 +246,42 @@
 		}
 	}
 
-	function checkIfWinner() {
-		const copyPlayers = [...state.players];
+	function storePlayedGameToPreviousGames() {
+		const copyPlayersScoredSorted = JSON.stringify(state.playersScoreSorted);
 
-		copyPlayers.sort((a: Player, b: Player) => {
+		const currentTime = Date.now();
+		const date = new Date(currentTime);
+
+		const day = date.getDate();
+		const month = date.getMonth() + 1;
+		const year = date.getFullYear();
+
+		const minutes = date.getMinutes();
+		const hours = date.getHours();
+
+		const costumeDate = `${day}/${month}/${year}`;
+		let costumeTime;
+		
+		if (minutes > 9) {
+			costumeTime = `${hours}:${minutes}`;
+		} else {
+			costumeTime = `${hours}:0${minutes}`;
+		}
+
+		const justPlayedGame = {
+			date: costumeDate,
+			time: costumeTime,
+			rounds: state.rounds,
+			score: JSON.parse(copyPlayersScoredSorted),
+		};
+
+		state.previousGames.unshift(justPlayedGame);
+	}
+
+	function checkIfWinner() {
+		state.playersScoreSorted = [...state.players];
+
+		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
 			if (a.totalScore > b.totalScore) {
 				return -1;
 			}
@@ -276,16 +291,16 @@
 			}
 		})
 
-		const playerWithBiggestScore = copyPlayers[0].totalScore;
+		const playerWithBiggestScore = state.playersScoreSorted[0].totalScore;
 
 		if (playerWithBiggestScore >= state.scoreGoal) {
 			state.playersWithSameScore = [];
 
-			for (let index = 0; index < copyPlayers.length; index += 1) {
-				if (copyPlayers[index].totalScore === playerWithBiggestScore) {
-					state.playersWithSameScore.push(copyPlayers[index])
+			for (let index = 0; index < state.playersScoreSorted.length; index += 1) {
+				if (state.playersScoreSorted[index].totalScore === playerWithBiggestScore) {
+					state.playersWithSameScore.push(state.playersScoreSorted[index])
 				} else {
-					const loserID = copyPlayers[index].id;
+					const loserID = state.playersScoreSorted[index].id;
 
 					for (const player of state.players) {
 						if (player.id === loserID) {
@@ -301,7 +316,7 @@
 				state.isWinner = false;
 			}
 
-			const winnerID = copyPlayers[0].id;
+			const winnerID = state.playersScoreSorted[0].id;
 
 			setWinnerToCurrentPlayer();
 			function setWinnerToCurrentPlayer() {
@@ -421,6 +436,7 @@
 		handler={handleResetGameClick}
 		{handleChangePlayersClick}
 		{handleScoreNumberInput}
+		{handlePreviousScoreClick}
 	/>
 
 	<CrokinoleAnnouncement
@@ -440,6 +456,12 @@
 		{handleAddPlayerKeydown}
 		{handleStartGameClick}
 		{handleDeleteClick}
+	/>
+	
+	<CrokinolePreviousGames
+		previousGames={state.previousGames}
+		isPreviousGamesOpen={state.isPreviousGamesOpen}
+		{handleBackClick}
 	/>
 </section>
 

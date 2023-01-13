@@ -1,16 +1,10 @@
 <script lang="ts">
-	type Players = {
-		name: string,
-		totalScore: number,
-		currentSore: number,
-		id: string,
-		isPlaying : boolean,
-	}
+	import type { PlayerType } from '../../types';
 
 	export let handler: void;
 	export let visibility: boolean;
-	export let currentPlayer: Players;
-	export let players: Players[];
+	export let currentPlayer: PlayerType;
+	export let players: PlayerType[];
 </script>
 
 {#if players.length > 0}

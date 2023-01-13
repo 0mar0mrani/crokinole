@@ -2,6 +2,7 @@
 	export let handler: void;
 	export let handleChangePlayersClick: void;
 	export let handleScoreNumberInput: void;
+	export let handlePreviousScoreClick: void;
 	export let visibility: boolean;
 	export let scoreGoal: number;
 </script>
@@ -10,6 +11,8 @@
 	<button class="crokinole__menu-item-button" on:click={handler}>Reset Game</button>
 
 	<button class="crokinole__menu-item-button" on:click={handleChangePlayersClick}>Change Players</button>
+
+	<button class="crokinole__menu-item-button" on:click={handlePreviousScoreClick}>Previous Games</button>
 
 	<div class="crokinole__score-goal-container">
 		<div class="crokinole__score-goal-header">Score Goal</div>
