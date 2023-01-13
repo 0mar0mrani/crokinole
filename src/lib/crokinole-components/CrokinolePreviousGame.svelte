@@ -70,3 +70,58 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	.crokinole__previous-game {
+		background-color: #212427;
+		color: #f8e9cd;
+	}
+
+	.crokinole__more-info {
+		padding: 1rem 2rem;
+		border-top: #f8e9cd solid 0.2rem;
+	}
+
+	.crokinole__rounds {
+		font-size: 1.8rem;
+	}
+
+	.crokinole__date,
+	.crokinole__time {
+		font-size: 1.2rem;
+	}
+
+	.crokinole__player {
+		display: grid;
+		align-items: center;
+		grid-template-columns: 1.5fr 2fr 2fr
+	}
+
+	.crokinole__rounds-time-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.crokinole__button {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 2rem;
+		border: none;
+	}
+
+	.crokinole__header-score {
+		font-size: 2.5rem;
+	}
+
+	.crokinole__place {
+		font-size: 2rem;
+	}
+
+	.crokinole__name,
+	.crokinole__score {
+		font-size: 2.5rem;
+	}
+</style>
