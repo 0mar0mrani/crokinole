@@ -30,7 +30,7 @@
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
-		storeLocally();
+		// storeLocally();
 	}
 
 	function handleAddClick() {
@@ -45,6 +45,7 @@
 			}
 
 			if (state.isRoundFinished) {
+				sortPlayersByCurrentScore();
 				subtractAllScoresWithSmallestScore();
 				setTotalScore();
 				checkIfWinner();
@@ -146,18 +147,6 @@
 	}
 
 	function subtractAllScoresWithSmallestScore() {
-		state.playersScoreSorted = [...state.players];
-
-		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
-			if (a.currentScore > b.currentScore) {
-				return -1;
-			}
-
-			if (a.currentScore < b.currentScore) {
-				return 1;
-			}
-		})
-
 		const playerWithSmallestCurrentScore = returnGetPlayerWithSmallestCurrentScore();
 
 		if (playerWithSmallestCurrentScore) {
@@ -246,6 +235,20 @@
 		}
 	}
 
+	function sortPlayersByCurrentScore() {
+		state.playersScoreSorted = [...state.players];
+
+		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
+			if (a.currentScore > b.currentScore) {
+				return -1;
+			}
+
+			if (a.currentScore < b.currentScore) {
+				return 1;
+			}
+		})
+	}
+
 	function storePlayedGameToPreviousGames() {
 		const copyPlayersScoredSorted = JSON.stringify(state.playersScoreSorted);
 
@@ -279,18 +282,6 @@
 	}
 
 	function checkIfWinner() {
-		state.playersScoreSorted = [...state.players];
-
-		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
-			if (a.totalScore > b.totalScore) {
-				return -1;
-			}
-
-			if (a.totalScore < b.totalScore) {
-				return 1;
-			}
-		})
-
 		const playerWithBiggestScore = state.playersScoreSorted[0].totalScore;
 
 		if (playerWithBiggestScore >= state.scoreGoal) {
