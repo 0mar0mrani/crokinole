@@ -20,10 +20,10 @@ export type StateType = {
 	isMenuOpen: boolean,
 	isPreviousGamesOpen: boolean;
 	isWinner: boolean,
-	addPlayers: boolean,
+	isAddPlayersOpen: boolean,
 	isRoundFinished: boolean,
 	scoreGoal: number,
-	playersWithSameScore: PlayerType[],
+	winner: PlayerType[],
 	rounds: number;
 	previousGames: GameType[];
 

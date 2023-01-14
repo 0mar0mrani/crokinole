@@ -7,57 +7,55 @@
 	export let handleStartGameClick: void;
 	export let handleDeleteClick: void;
 	export let players: PlayerType[];
-	export let visibility: boolean;
+	export let isAddPlayersOpen: boolean;
 	export let isEnoughPlayers: boolean;
 	export let nameInputChild: string;
 	export let nameInputElChild: object;
 </script>
 
-<div class={`crokinole__players ${visibility ? 'crokinole__players--open' : ''}`}>
-	<div class="crokinole__header">Players</div>
+{#if isAddPlayersOpen}
+	<div class="players">
+		<div class="players__header">Players</div>
 
-	<div class="crokinole__player-container">
-		{#each players as player, index}
-			<div class="crokinole__player" data-id={index}>
-				<div>
-					{player.name}
+		<div class="players__player-container">
+			{#each players as player, index}
+				<div class="players__player" data-id={index}>
+					<div>
+						{player.name}
+					</div>
+
+					<button class="players__delete-button" on:click={handleDeleteClick}>
+						<CloseSVG/>
+					</button>
 				</div>
+			{/each}
+		</div>
 
-				<button
-					class="crokinole__player-delete-button"
-					on:click={handleDeleteClick}>
-					<CloseSVG/>
-				</button>
-			</div>
-		{/each}
-	</div>
+		<div class="players__input">
+			<input 
+				type="text" 
+				class="players__input-text"
+				on:keydown={handleAddPlayerKeydown}
+				bind:value={nameInputChild}
+				bind:this={nameInputElChild}
+			>
 
-	<div class="crokinole__input">
-		<input 
-			type="text" 
-			class="crokinole__input-text"
-			on:keydown={handleAddPlayerKeydown}
-			bind:value={nameInputChild}
-			bind:this={nameInputElChild}
-		>
+			<button class={`crokinole__button ${nameInputChild !== '' && players.length < 4 ? '' : 'players__button--deactivated'}`} on:click={handleAddPlayerClick}>
+				Add player
+			</button>
+		</div>
 
 		<button
-			class={`crokinole__button ${nameInputChild !== '' && players.length < 4 ? '' : 'crokinole__button--deactivated'}`}
-			on:click={handleAddPlayerClick}
-			>Add player
+			class={`crokinole__button ${!isEnoughPlayers ? 'players__button--deactivated' : ''}`}
+			on:click={handleStartGameClick}
+			>Start Game
 		</button>
 	</div>
-
-	<button
-		class={`crokinole__button ${!isEnoughPlayers ? 'crokinole__button--deactivated' : ''}`}
-		on:click={handleStartGameClick}
-		>Start Game
-	</button>
-</div>
+{/if}
 
 <style>
-	.crokinole__players {
-		display: none;
+	.players {
+		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: space-evenly;
@@ -72,39 +70,35 @@
 		z-index: 200;
 	}
 
-	.crokinole__players--open {
-		display: flex;
-	}
-
-	.crokinole__header {
+	.players__header {
 		font-size: 4rem;
 		font-weight: 500;
 		margin-bottom: 2rem;
 		border-bottom: solid 2px #212427;
 	}
 
-	.crokinole__player-container {
+	.players__player-container {
 		height: 16rem;
 	}
 
-	.crokinole__player {
+	.players__player {
 		display: flex;
 		gap: 4rem;
 		justify-content: space-between;
 	}
 
-	.crokinole__player-delete-button {
+	.players__delete-button {
 		width: 4rem;
 		height: 4rem;
 		border: none;
 	}
 
-	.crokinole__input {
+	.players__input {
 		display: flex;
 		flex-direction: column;
 	}
 
-	.crokinole__input-text {
+	.players__input-text {
 		border: solid 2px #212427;
 		padding-left: 0.5rem;
 		text-align: center;
@@ -119,7 +113,7 @@
 		border-radius: 2rem;
 	}
 
-	.crokinole__button--deactivated {
+	.players__button--deactivated {
 		opacity: 0.5;
 		pointer-events: none;
 	}

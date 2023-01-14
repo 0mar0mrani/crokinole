@@ -3,20 +3,23 @@
 
 	export let handler: void;
 	export let visibility: boolean;
-	export let currentPlayer: PlayerType;
-	export let players: PlayerType[];
+	export let winner: PlayerType[];
 </script>
 
-{#if players.length > 0}
-	<div class={`crokinole__announcement ${visibility ? 'crokinole__announcement--open' : ''}`}>
-		<div class="crokinole__announcement-text">{currentPlayer.name} is the winner with {currentPlayer.totalScore} points!</div>
+{#if winner.length === 1}
+	<div class={`announcement ${visibility ? 'announcement--open' : ''}`}>
+		<div class="announcement__text">
+			{winner[0].name} is the winner with {winner[0].totalScore} points!
+		</div>
 
-		<button class="crokinole__menu-item-button" on:click={handler}>New game</button>
+		<button class="announcement__button" on:click={handler}>
+			New game
+		</button>
 	</div>
 {/if}
 
 <style>
-	.crokinole__announcement {
+	.announcement {
 		display: none;
 		flex-direction: column;
 		justify-content: space-evenly;
@@ -32,15 +35,15 @@
 		-webkit-backdrop-filter: blur(20px);;
 	} 
 
-	.crokinole__announcement--open {
+	.announcement--open {
 		display: flex;
 	}
 
-	.crokinole__announcement-text {
+	.announcement__text {
 		padding: 0 2rem;
 	}
 
-	.crokinole__menu-item-button {
+	.announcement__button {
 		padding: 1rem 2rem;
 		border: solid 2px #212427;
 		border-radius: 2rem;

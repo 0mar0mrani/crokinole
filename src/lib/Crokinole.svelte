@@ -1,11 +1,13 @@
 <script lang="ts">
    import { browser } from '$app/environment';
-	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
-	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
-	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
-	import CrokinolePreviousGames from "./crokinole-components/CrokinolePreviousGames.svelte";
-	import MenuSVG from "../assets/svg/MenuSVG.svelte";
-	import CloseSVG from "../assets/svg/CloseSVG.svelte";
+	import CSSbase from './global-css/base.svelte';
+	import CSSreset from './global-css/reset.svelte';
+	import CrokinoleMenu from './crokinole-components/CrokinoleMenu.svelte';
+	import CrokinoleAnnouncement from './crokinole-components/CrokinoleAnnouncement.svelte';
+	import CrokinolePlayers from './crokinole-components/CrokinolePlayers.svelte';
+	import CrokinolePreviousGames from './crokinole-components/CrokinolePreviousGames.svelte';
+	import MenuSVG from '../assets/svg/MenuSVG.svelte';
+	import CloseSVG from '../assets/svg/CloseSVG.svelte';
 	import type { PlayerType, StateType} from '../types'
 
 	let state: StateType = {
@@ -15,10 +17,10 @@
 		isMenuOpen: false,
 		isPreviousGamesOpen: false,
 		isWinner: false,
-		addPlayers: true, 
+		isAddPlayersOpen: true, 
 		isRoundFinished: true,
 		scoreGoal: 100,
-		playersWithSameScore: [],
+		winner: [],
 		rounds: 0,
 		previousGames: [],
 	}
@@ -45,6 +47,7 @@
 			}
 
 			if (state.isRoundFinished) {
+				sortPlayersByCurrentScore();
 				subtractAllScoresWithSmallestScore();
 				setTotalScore();
 				checkIfWinner();
@@ -68,14 +71,6 @@
 		}
 	}
 
-	function checkIfRoundFinished() {
-		const lastPlayer = state.players.length - 1;
-
-		if (state.currentPlayer === lastPlayer) {
-			state.isRoundFinished = true;
-		}
-	}
-
 	function handleNewRoundClick() {
 		state.rounds += 1; 
 		state.isRoundFinished = false;
@@ -96,12 +91,12 @@
 
 	function handleChangePlayersClick() {
 		state.isMenuOpen = false;
-		state.addPlayers = true;
+		state.isAddPlayersOpen = true;
 	}
 
 	function handleStartGameClick() {
 		initializeGame();
-		state.addPlayers = false;
+		state.isAddPlayersOpen = false;
 	}
 
 	function handleDeleteClick(event: PointerEvent) {
@@ -145,34 +140,37 @@
 		}
 	}
 
+	function handleAddPlayerClick() {
+		addNewPlayer();
+		nameInput = '';
+		nameInputEl.focus();
+		state.players = state.players;
+	}
+
+	function handleAddPlayerKeydown(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			addNewPlayer();
+			nameInput = '';
+			nameInputEl.focus();
+			state.players = state.players;
+		}
+	}
+
 	function subtractAllScoresWithSmallestScore() {
-		state.playersScoreSorted = [...state.players];
-
-		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
-			if (a.currentScore > b.currentScore) {
-				return -1;
-			}
-
-			if (a.currentScore < b.currentScore) {
-				return 1;
-			}
-		})
-
 		const playerWithSmallestCurrentScore = returnGetPlayerWithSmallestCurrentScore();
 
 		if (playerWithSmallestCurrentScore) {
 			state.players.forEach(player => {
-				if (player.isPlaying) {
-					player.currentScore -= playerWithSmallestCurrentScore;
-				}
+				player.currentScore -= playerWithSmallestCurrentScore;
 			})
 		}
 
-
 		function returnGetPlayerWithSmallestCurrentScore(): number | undefined {
-			for (let index = state.playersScoreSorted.length - 1; index >= 0; index -= 1) {
-				if (state.playersScoreSorted[index].isPlaying) {
-					return state.playersScoreSorted[index].currentScore;
+			const playersScoreSorted = state.playersScoreSorted;
+
+			for (let index = playersScoreSorted.length - 1; index >= 0; index -= 1) {
+				if (playersScoreSorted[index].isPlaying) {
+					return playersScoreSorted[index].currentScore;
 				}
 			}
 		}
@@ -221,29 +219,34 @@
 		state.players[state.currentPlayer].currentScore = Number(scoreInput);
 	}
 
-	function handleAddPlayerClick() {
-		addNewPlayer();
-		nameInput = '';
-		nameInputEl.focus();
-		state.players = state.players;
-	}
-
-	function handleAddPlayerKeydown(event: KeyboardEvent) {
-
-		if (event.key === 'Enter') {
-			addNewPlayer();
-			nameInput = '';
-			nameInputEl.focus();
-			state.players = state.players;
-		}
-	}
-
 	function goToNextPlayer() {
 		if (state.currentPlayer === state.players.length - 1) {
 			state.currentPlayer = 0;
 		} else {
 			state.currentPlayer += 1;
 		}
+	}
+
+	function checkIfRoundFinished() {
+		const lastPlayer = state.players.length - 1;
+
+		if (state.currentPlayer === lastPlayer) {
+			state.isRoundFinished = true;
+		}
+	}
+
+	function sortPlayersByCurrentScore() {
+		state.playersScoreSorted = [...state.players];
+
+		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
+			if (a.currentScore > b.currentScore) {
+				return -1;
+			}
+
+			if (a.currentScore < b.currentScore) {
+				return 1;
+			}
+		})
 	}
 
 	function storePlayedGameToPreviousGames() {
@@ -260,14 +263,8 @@
 		const hours = date.getHours();
 
 		const costumeDate = `${day}/${month}/${year}`;
-		let costumeTime;
+		const costumeTime = `${hours}:${minutes > 9 ? minutes : '0' + minutes}`;
 		
-		if (minutes > 9) {
-			costumeTime = `${hours}:${minutes}`;
-		} else {
-			costumeTime = `${hours}:0${minutes}`;
-		}
-
 		const justPlayedGame = {
 			date: costumeDate,
 			time: costumeTime,
@@ -279,70 +276,55 @@
 	}
 
 	function checkIfWinner() {
-		state.playersScoreSorted = [...state.players];
-
-		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
-			if (a.totalScore > b.totalScore) {
-				return -1;
-			}
-
-			if (a.totalScore < b.totalScore) {
-				return 1;
-			}
-		})
-
 		const playerWithBiggestScore = state.playersScoreSorted[0].totalScore;
 
 		if (playerWithBiggestScore >= state.scoreGoal) {
-			state.playersWithSameScore = [];
+			checkIfMultipleWinners();
 
-			for (let index = 0; index < state.playersScoreSorted.length; index += 1) {
-				if (state.playersScoreSorted[index].totalScore === playerWithBiggestScore) {
-					state.playersWithSameScore.push(state.playersScoreSorted[index])
-				} else {
-					const loserID = state.playersScoreSorted[index].id;
-
-					for (const player of state.players) {
-						if (player.id === loserID) {
-							player.isPlaying = false;
-						}
-					}
-				}
-			}
-
-			if (state.playersWithSameScore.length === 1) {
+			if (state.winner.length === 1) {
 				state.isWinner = true;
 			} else {
 				state.isWinner = false;
 			}
+		}
 
-			const winnerID = state.playersScoreSorted[0].id;
+		function checkIfMultipleWinners() {
+			const playersScoreSorted = state.playersScoreSorted;
+			state.winner = [];
 
-			setWinnerToCurrentPlayer();
-			function setWinnerToCurrentPlayer() {
-				state.players.forEach((player, index) => {
-					if (player.id === winnerID) {
-						state.currentPlayer = index;
+			for (let index = 0; index < playersScoreSorted.length; index += 1) {
+				if (playersScoreSorted[index].totalScore === playerWithBiggestScore) {
+					state.winner.push(playersScoreSorted[index])
+				} else {
+					setIsPlayingToFalse();
+
+					function setIsPlayingToFalse() {
+						const loserID = playersScoreSorted[index].id;
+
+						for (const player of state.players) {
+							if (player.id === loserID) {
+								player.isPlaying = false;
+							}
+						}
 					}
-				})
+				}
 			}
 		}
 	}
 
 	function initializeGame() {
 		state.currentPlayer = 0;
+		state.isWinner = false;
+		state.rounds = 0;
+		state.isRoundFinished = true;
+		state.winner = [];
+		state.players = state.players;
 
 		for (const player of state.players) {
 			player.currentScore = 0;
 			player.totalScore = 0;
 			player.isPlaying = true;
 		}
-
-		state.isWinner = false;
-		state.rounds = 0;
-		state.isRoundFinished = true;
-		state.playersWithSameScore = [];
-		state.players = state.players;
 	}
 
 	function returnGetLocalStorage() {
@@ -404,7 +386,7 @@
 			</button>
 		{/if}
 		
-		{#if !state.isRoundFinished && state.players.length > 0}
+		{#if !state.isRoundFinished}
 			<div class="crokinole__input-name">
 				<div class="crokinole__name">{state.players[state.currentPlayer].name}</div>
 				
@@ -420,9 +402,7 @@
 						step="5"
 					>
 
-					<button 
-					class={`crokinole__button ${scoreInput !== '' ? '' : 'crokinole__button--deactivated'}`}
-					on:click={handleAddClick}>
+					<button class={`crokinole__button ${scoreInput !== '' ? '' : 'crokinole__button--deactivated'}`} on:click={handleAddClick}>
 						Add
 					</button>
 				</div>
@@ -431,9 +411,9 @@
 	</div>
 
 	<CrokinoleMenu 
-		visibility={state.isMenuOpen}
+		isMenuOpen={state.isMenuOpen}
 		scoreGoal={state.scoreGoal}
-		handler={handleResetGameClick}
+		{handleResetGameClick}
 		{handleChangePlayersClick}
 		{handleScoreNumberInput}
 		{handlePreviousScoreClick}
@@ -442,12 +422,11 @@
 	<CrokinoleAnnouncement
 		visibility={state.isWinner}
 		handler={handleNewGameClick}
-		currentPlayer={state.players[state.currentPlayer]}
-		players={state.players}
+		winner={state.winner}
 	/>
 
 	<CrokinolePlayers
-		visibility={state.addPlayers}
+		isAddPlayersOpen={state.isAddPlayersOpen}
 		bind:nameInputChild={nameInput}
 		bind:nameInputElChild={nameInputEl}
 		players={state.players}
@@ -466,31 +445,6 @@
 </section>
 
 <style>
-	:global(*) {
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-		user-select: none;
-	}
-
-	:global(button, input) {
-		font-family: inherit;
-		font-size: inherit;
-		color: inherit;
-		cursor: pointer;
-		background-color: inherit;
-	}
-
-	:global(html) {
-		font-size: 10px;
-	}
-
-	:global(body) {
-		font-size: 3rem;
-		font-family: 'Roboto', sans-serif;
-		color: #212427;
-	}
-
 	.crokinole {
 		height: 100%;
 		width: 100%;
