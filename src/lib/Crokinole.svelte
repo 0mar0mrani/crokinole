@@ -18,7 +18,7 @@
 		isAddPlayersOpen: true, 
 		isRoundFinished: true,
 		scoreGoal: 100,
-		playersWithSameScore: [],
+		winner: [],
 		rounds: 0,
 		previousGames: [],
 	}
@@ -262,7 +262,7 @@
 
 		const costumeDate = `${day}/${month}/${year}`;
 		const costumeTime = `${hours}:${minutes > 9 ? minutes : '0' + minutes}`;
-
+		
 		const justPlayedGame = {
 			date: costumeDate,
 			time: costumeTime,
@@ -277,13 +277,24 @@
 		const playerWithBiggestScore = state.playersScoreSorted[0].totalScore;
 
 		if (playerWithBiggestScore >= state.scoreGoal) {
-			state.playersWithSameScore = [];
+			checkIfMultipleWinners();
 
-			for (let index = 0; index < state.playersScoreSorted.length; index += 1) {
-				if (state.playersScoreSorted[index].totalScore === playerWithBiggestScore) {
-					state.playersWithSameScore.push(state.playersScoreSorted[index])
+			if (state.winner.length === 1) {
+				state.isWinner = true;
+			} else {
+				state.isWinner = false;
+			}
+		}
+
+		function checkIfMultipleWinners() {
+			const playersScoreSorted = state.playersScoreSorted;
+			state.winner = [];
+
+			for (let index = 0; index < playersScoreSorted.length; index += 1) {
+				if (playersScoreSorted[index].totalScore === playerWithBiggestScore) {
+					state.winner.push(playersScoreSorted[index])
 				} else {
-					const loserID = state.playersScoreSorted[index].id;
+					const loserID = playersScoreSorted[index].id;
 
 					for (const player of state.players) {
 						if (player.id === loserID) {
@@ -291,23 +302,6 @@
 						}
 					}
 				}
-			}
-
-			if (state.playersWithSameScore.length === 1) {
-				state.isWinner = true;
-			} else {
-				state.isWinner = false;
-			}
-
-			const winnerID = state.playersScoreSorted[0].id;
-
-			setWinnerToCurrentPlayer();
-			function setWinnerToCurrentPlayer() {
-				state.players.forEach((player, index) => {
-					if (player.id === winnerID) {
-						state.currentPlayer = index;
-					}
-				})
 			}
 		}
 	}
@@ -324,7 +318,7 @@
 		state.isWinner = false;
 		state.rounds = 0;
 		state.isRoundFinished = true;
-		state.playersWithSameScore = [];
+		state.winner = [];
 		state.players = state.players;
 	}
 
@@ -425,8 +419,7 @@
 	<CrokinoleAnnouncement
 		visibility={state.isWinner}
 		handler={handleNewGameClick}
-		currentPlayer={state.players[state.currentPlayer]}
-		players={state.players}
+		winner={state.winner}
 	/>
 
 	<CrokinolePlayers

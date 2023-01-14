@@ -23,7 +23,7 @@ export type StateType = {
 	isAddPlayersOpen: boolean,
 	isRoundFinished: boolean,
 	scoreGoal: number,
-	playersWithSameScore: PlayerType[],
+	winner: PlayerType[],
 	rounds: number;
 	previousGames: GameType[];
 

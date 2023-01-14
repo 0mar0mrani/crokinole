@@ -3,14 +3,13 @@
 
 	export let handler: void;
 	export let visibility: boolean;
-	export let currentPlayer: PlayerType;
-	export let players: PlayerType[];
+	export let winner: PlayerType[];
 </script>
 
-{#if players.length > 0}
+{#if winner.length === 1}
 	<div class={`announcement ${visibility ? 'announcement--open' : ''}`}>
 		<div class="announcement__text">
-			{currentPlayer.name} is the winner with {currentPlayer.totalScore} points!
+			{winner[0].name} is the winner with {winner[0].totalScore} points!
 		</div>
 
 		<button class="announcement__button" on:click={handler}>
