@@ -1,11 +1,13 @@
 <script lang="ts">
    import { browser } from '$app/environment';
-	import CrokinoleMenu from "./crokinole-components/CrokinoleMenu.svelte";
-	import CrokinoleAnnouncement from "./crokinole-components/CrokinoleAnnouncement.svelte";
-	import CrokinolePlayers from "./crokinole-components/CrokinolePlayers.svelte";
-	import CrokinolePreviousGames from "./crokinole-components/CrokinolePreviousGames.svelte";
-	import MenuSVG from "../assets/svg/MenuSVG.svelte";
-	import CloseSVG from "../assets/svg/CloseSVG.svelte";
+	import CSSbase from './global-css/base.svelte';
+	import CSSreset from './global-css/reset.svelte';
+	import CrokinoleMenu from './crokinole-components/CrokinoleMenu.svelte';
+	import CrokinoleAnnouncement from './crokinole-components/CrokinoleAnnouncement.svelte';
+	import CrokinolePlayers from './crokinole-components/CrokinolePlayers.svelte';
+	import CrokinolePreviousGames from './crokinole-components/CrokinolePreviousGames.svelte';
+	import MenuSVG from '../assets/svg/MenuSVG.svelte';
+	import CloseSVG from '../assets/svg/CloseSVG.svelte';
 	import type { PlayerType, StateType} from '../types'
 
 	let state: StateType = {
@@ -443,31 +445,6 @@
 </section>
 
 <style>
-	:global(*) {
-		padding: 0;
-		margin: 0;
-		box-sizing: border-box;
-		user-select: none;
-	}
-
-	:global(button, input) {
-		font-family: inherit;
-		font-size: inherit;
-		color: inherit;
-		cursor: pointer;
-		background-color: inherit;
-	}
-
-	:global(html) {
-		font-size: 10px;
-	}
-
-	:global(body) {
-		font-size: 3rem;
-		font-family: 'Roboto', sans-serif;
-		color: #212427;
-	}
-
 	.crokinole {
 		height: 100%;
 		width: 100%;
