@@ -294,11 +294,15 @@
 				if (playersScoreSorted[index].totalScore === playerWithBiggestScore) {
 					state.winner.push(playersScoreSorted[index])
 				} else {
-					const loserID = playersScoreSorted[index].id;
+					setIsPlayingToFalse();
 
-					for (const player of state.players) {
-						if (player.id === loserID) {
-							player.isPlaying = false;
+					function setIsPlayingToFalse() {
+						const loserID = playersScoreSorted[index].id;
+
+						for (const player of state.players) {
+							if (player.id === loserID) {
+								player.isPlaying = false;
+							}
 						}
 					}
 				}
@@ -308,18 +312,17 @@
 
 	function initializeGame() {
 		state.currentPlayer = 0;
+		state.isWinner = false;
+		state.rounds = 0;
+		state.isRoundFinished = true;
+		state.winner = [];
+		state.players = state.players;
 
 		for (const player of state.players) {
 			player.currentScore = 0;
 			player.totalScore = 0;
 			player.isPlaying = true;
 		}
-
-		state.isWinner = false;
-		state.rounds = 0;
-		state.isRoundFinished = true;
-		state.winner = [];
-		state.players = state.players;
 	}
 
 	function returnGetLocalStorage() {
