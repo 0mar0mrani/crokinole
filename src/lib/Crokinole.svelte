@@ -384,7 +384,7 @@
 			</button>
 		{/if}
 		
-		{#if !state.isRoundFinished && state.players.length > 0}
+		{#if !state.isRoundFinished}
 			<div class="crokinole__input-name">
 				<div class="crokinole__name">{state.players[state.currentPlayer].name}</div>
 				
@@ -400,9 +400,7 @@
 						step="5"
 					>
 
-					<button 
-					class={`crokinole__button ${scoreInput !== '' ? '' : 'crokinole__button--deactivated'}`}
-					on:click={handleAddClick}>
+					<button class={`crokinole__button ${scoreInput !== '' ? '' : 'crokinole__button--deactivated'}`} on:click={handleAddClick}>
 						Add
 					</button>
 				</div>
