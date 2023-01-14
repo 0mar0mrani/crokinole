@@ -32,7 +32,7 @@
 
 	$: isEnoughPlayers = state.players.length >= 2 ? true : false;
 	$: if (state) {
-		// storeLocally();
+		storeLocally();
 	}
 
 	function handleAddClick() {
