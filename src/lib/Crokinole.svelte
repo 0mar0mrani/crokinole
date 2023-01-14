@@ -159,16 +159,16 @@
 
 		if (playerWithSmallestCurrentScore) {
 			state.players.forEach(player => {
-				if (player.isPlaying) {
-					player.currentScore -= playerWithSmallestCurrentScore;
-				}
+				player.currentScore -= playerWithSmallestCurrentScore;
 			})
 		}
 
 		function returnGetPlayerWithSmallestCurrentScore(): number | undefined {
-			for (let index = state.playersScoreSorted.length - 1; index >= 0; index -= 1) {
-				if (state.playersScoreSorted[index].isPlaying) {
-					return state.playersScoreSorted[index].currentScore;
+			const playersScoreSorted = state.playersScoreSorted;
+
+			for (let index = playersScoreSorted.length - 1; index >= 0; index -= 1) {
+				if (playersScoreSorted[index].isPlaying) {
+					return playersScoreSorted[index].currentScore;
 				}
 			}
 		}
