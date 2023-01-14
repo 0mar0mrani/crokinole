@@ -420,9 +420,10 @@
 	/>
 
 	<CrokinoleAnnouncement
-		visibility={state.isWinner}
+		playersScoreSorted={state.playersScoreSorted}
 		handler={handleNewGameClick}
-		winner={state.winner}
+		isWinner={state.isWinner}
+		rounds={state.rounds}
 	/>
 
 	<CrokinolePlayers

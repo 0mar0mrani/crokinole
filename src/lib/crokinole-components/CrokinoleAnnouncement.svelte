@@ -2,14 +2,38 @@
 	import type { PlayerType } from '../../types';
 
 	export let handler: void;
-	export let visibility: boolean;
-	export let winner: PlayerType[];
+	export let playersScoreSorted: PlayerType[];
+	export let isWinner: boolean;
+	export let rounds: number;
+
 </script>
 
-{#if winner.length === 1}
-	<div class={`announcement ${visibility ? 'announcement--open' : ''}`}>
+{#if isWinner}
+	<div class="announcement">
 		<div class="announcement__text">
-			{winner[0].name} is the winner with {winner[0].totalScore} points!
+			{playersScoreSorted[0].name} is the winner with {playersScoreSorted[0].totalScore} points!
+		</div>
+
+		<div class="announcement__score-board">
+			<div class="announcement__rounds">
+				Rounds {rounds}	
+			</div>
+
+			{#each playersScoreSorted as player, index}
+				<div class="announcement__player">
+					<div class="announcement__place"># 
+						{index + 1}
+					</div>
+
+					<div class="announcement__name">
+						{player.name}
+					</div>
+
+					<div class="announcement__score">
+						{player.totalScore}
+					</div>	
+				</div>
+			{/each}
 		</div>
 
 		<button class="announcement__button" on:click={handler}>
@@ -20,7 +44,7 @@
 
 <style>
 	.announcement {
-		display: none;
+		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly;
 		align-items: center;
@@ -35,8 +59,32 @@
 		-webkit-backdrop-filter: blur(20px);;
 	} 
 
-	.announcement--open {
-		display: flex;
+	.announcement__score-board {
+		background-color: #212427;
+		color: #f8e9cd;
+		width: 30rem;
+		padding: 1rem 2rem;
+		border-radius: 2rem;
+	}
+
+	.announcement__rounds {
+		font-size: 1.8rem;
+		margin-bottom: 1rem;
+	}
+
+	.announcement__player {
+		display: grid;
+		align-items: center;
+		grid-template-columns: 1.5fr 2fr 2fr
+	}
+
+	.announcement__place {
+		font-size: 2rem;
+	}
+
+	.announcement__name,
+	.announcement__score {
+		font-size: 2.5rem;
 	}
 
 	.announcement__text {
@@ -45,7 +93,9 @@
 
 	.announcement__button {
 		padding: 1rem 2rem;
-		border: solid 2px #212427;
+		background-color: #212427;
+		color: #f8e9cd;
+		border: none;
 		border-radius: 2rem;
 		align-self: center;
 	}
