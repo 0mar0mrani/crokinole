@@ -2,14 +2,15 @@
 	import type { PlayerType } from '../../types';
 
 	export let handler: void;
-	export let visibility: boolean;
-	export let winner: PlayerType[];
+	export let playersScoreSorted: PlayerType[];
+	export let isWinner: boolean;
+
 </script>
 
-{#if winner.length === 1}
-	<div class={`announcement ${visibility ? 'announcement--open' : ''}`}>
+{#if isWinner}
+	<div class="announcement">
 		<div class="announcement__text">
-			{winner[0].name} is the winner with {winner[0].totalScore} points!
+			{playersScoreSorted[0].name} is the winner with {playersScoreSorted[0].totalScore} points!
 		</div>
 
 		<button class="announcement__button" on:click={handler}>
@@ -20,7 +21,7 @@
 
 <style>
 	.announcement {
-		display: none;
+		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly;
 		align-items: center;
@@ -34,10 +35,6 @@
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);;
 	} 
-
-	.announcement--open {
-		display: flex;
-	}
 
 	.announcement__text {
 		padding: 0 2rem;
