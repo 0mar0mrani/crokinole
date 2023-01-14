@@ -4,6 +4,7 @@
 	export let handler: void;
 	export let playersScoreSorted: PlayerType[];
 	export let isWinner: boolean;
+	export let rounds: number;
 
 </script>
 
@@ -11,6 +12,28 @@
 	<div class="announcement">
 		<div class="announcement__text">
 			{playersScoreSorted[0].name} is the winner with {playersScoreSorted[0].totalScore} points!
+		</div>
+
+		<div class="announcement__score-board">
+			<div class="announcement__rounds">
+				Rounds {rounds}	
+			</div>
+
+			{#each playersScoreSorted as player, index}
+				<div class="announcement__player">
+					<div class="announcement__place"># 
+						{index + 1}
+					</div>
+
+					<div class="announcement__name">
+						{player.name}
+					</div>
+
+					<div class="announcement__score">
+						{player.totalScore}
+					</div>	
+				</div>
+			{/each}
 		</div>
 
 		<button class="announcement__button" on:click={handler}>
@@ -35,6 +58,34 @@
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);;
 	} 
+
+	.announcement__score-board {
+		background-color: #212427;
+		color: #f8e9cd;
+		width: 30rem;
+		padding: 1rem 2rem;
+		border-radius: 2rem;
+	}
+
+	.announcement__rounds {
+		font-size: 1.8rem;
+		margin-bottom: 1rem;
+	}
+
+	.announcement__player {
+		display: grid;
+		align-items: center;
+		grid-template-columns: 1.5fr 2fr 2fr
+	}
+
+	.announcement__place {
+		font-size: 2rem;
+	}
+
+	.announcement__name,
+	.announcement__score {
+		font-size: 2.5rem;
+	}
 
 	.announcement__text {
 		padding: 0 2rem;

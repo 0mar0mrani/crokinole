@@ -423,6 +423,7 @@
 		playersScoreSorted={state.playersScoreSorted}
 		handler={handleNewGameClick}
 		isWinner={state.isWinner}
+		rounds={state.rounds}
 	/>
 
 	<CrokinolePlayers
