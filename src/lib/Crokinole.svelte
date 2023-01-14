@@ -261,13 +261,7 @@
 		const hours = date.getHours();
 
 		const costumeDate = `${day}/${month}/${year}`;
-		let costumeTime;
-		
-		if (minutes > 9) {
-			costumeTime = `${hours}:${minutes}`;
-		} else {
-			costumeTime = `${hours}:0${minutes}`;
-		}
+		const costumeTime = `${hours}:${minutes > 9 ? minutes : '0' + minutes}`;
 
 		const justPlayedGame = {
 			date: costumeDate,
