@@ -69,14 +69,6 @@
 		}
 	}
 
-	function checkIfRoundFinished() {
-		const lastPlayer = state.players.length - 1;
-
-		if (state.currentPlayer === lastPlayer) {
-			state.isRoundFinished = true;
-		}
-	}
-
 	function handleNewRoundClick() {
 		state.rounds += 1; 
 		state.isRoundFinished = false;
@@ -146,6 +138,22 @@
 		}
 	}
 
+	function handleAddPlayerClick() {
+		addNewPlayer();
+		nameInput = '';
+		nameInputEl.focus();
+		state.players = state.players;
+	}
+
+	function handleAddPlayerKeydown(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			addNewPlayer();
+			nameInput = '';
+			nameInputEl.focus();
+			state.players = state.players;
+		}
+	}
+
 	function subtractAllScoresWithSmallestScore() {
 		const playerWithSmallestCurrentScore = returnGetPlayerWithSmallestCurrentScore();
 
@@ -156,7 +164,6 @@
 				}
 			})
 		}
-
 
 		function returnGetPlayerWithSmallestCurrentScore(): number | undefined {
 			for (let index = state.playersScoreSorted.length - 1; index >= 0; index -= 1) {
@@ -210,28 +217,19 @@
 		state.players[state.currentPlayer].currentScore = Number(scoreInput);
 	}
 
-	function handleAddPlayerClick() {
-		addNewPlayer();
-		nameInput = '';
-		nameInputEl.focus();
-		state.players = state.players;
-	}
-
-	function handleAddPlayerKeydown(event: KeyboardEvent) {
-
-		if (event.key === 'Enter') {
-			addNewPlayer();
-			nameInput = '';
-			nameInputEl.focus();
-			state.players = state.players;
-		}
-	}
-
 	function goToNextPlayer() {
 		if (state.currentPlayer === state.players.length - 1) {
 			state.currentPlayer = 0;
 		} else {
 			state.currentPlayer += 1;
+		}
+	}
+
+	function checkIfRoundFinished() {
+		const lastPlayer = state.players.length - 1;
+
+		if (state.currentPlayer === lastPlayer) {
+			state.isRoundFinished = true;
 		}
 	}
 
