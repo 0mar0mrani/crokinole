@@ -31,7 +31,8 @@
 		Previous Games
 	</button>
 
-	<div class="menu__link">
+	<div class="menu__about">
+		<p>Developed by Omar Omrani </p>
 		<a href="https://www.paypal.com/paypalme/0mar0mrani" target=”_blank”>Buy Me A Coffee</a>
 	</div>
 </div>
@@ -58,7 +59,6 @@
 		transform: translateX(0);
 	}
 
-	.menu__link,
 	.menu__button {
 		padding: 1rem 2rem;
 		background-color: #212427;
@@ -68,9 +68,22 @@
 		align-self: center;
 	}
 
-	.menu__link a {
+	.menu__about {
+		display: flex;
+		justify-content: center;
+		gap: 2rem;
+		position: absolute;
+		left: 50%;
+		bottom: 1rem;
+		transform: translateX(-50%);
+		width: 100vw;
+		font-size: 2.5rem;
+	}
+
+	.menu__about p,
+	.menu__about a {
 		color: inherit;
-		text-decoration: none;
+		text-align: center;
 	}
 
 	.menu__score-goal-container {
@@ -89,5 +102,18 @@
 		border: solid 2px #212427;
 		width: 50%;
 		text-align: center; 
+	}
+
+	@media screen and (max-width: 550px) {
+		.menu__about {
+			font-size: 2rem;
+		}
+	}
+
+	@media screen and (max-width: 450px) {
+		.menu__about {
+			flex-direction: column;
+			gap: 1rem;
+		}
 	}
 </style>
