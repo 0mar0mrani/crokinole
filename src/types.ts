@@ -15,7 +15,8 @@ export type GameType = {
 
 export type StateType = {
 	players: PlayerType[],
-	playersScoreSorted: PlayerType[];
+	playersCurrentScoreSorted: PlayerType[];
+	playersTotalScoreSorted: PlayerType[];
 	currentPlayer: number,
 	isMenuOpen: boolean,
 	isPreviousGamesOpen: boolean;

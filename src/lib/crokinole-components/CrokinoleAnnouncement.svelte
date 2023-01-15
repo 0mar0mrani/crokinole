@@ -2,7 +2,7 @@
 	import type { PlayerType } from '../../types';
 
 	export let handler: void;
-	export let playersScoreSorted: PlayerType[];
+	export let playersCurrentScoreSorted: PlayerType[];
 	export let isWinner: boolean;
 	export let rounds: number;
 
@@ -11,7 +11,7 @@
 {#if isWinner}
 	<div class="announcement">
 		<div class="announcement__text">
-			{playersScoreSorted[0].name} is the winner with {playersScoreSorted[0].totalScore} points!
+			{playersCurrentScoreSorted[0].name} is the winner with {playersCurrentScoreSorted[0].totalScore} points!
 		</div>
 
 		<div class="announcement__score-board">
@@ -19,7 +19,7 @@
 				Rounds {rounds}	
 			</div>
 
-			{#each playersScoreSorted as player, index}
+			{#each playersCurrentScoreSorted as player, index}
 				<div class="announcement__player">
 					<div class="announcement__place"># 
 						{index + 1}
