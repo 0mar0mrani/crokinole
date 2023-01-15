@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PlayerType } from '../../types';
 
-	export let handler: void;
-	export let playersCurrentScoreSorted: PlayerType[];
+	export let handleNewGameClick: void;
+	export let playersTotalScoreSorted: PlayerType[];
 	export let isWinner: boolean;
 	export let rounds: number;
 
@@ -11,7 +11,7 @@
 {#if isWinner}
 	<div class="announcement">
 		<div class="announcement__text">
-			{playersCurrentScoreSorted[0].name} is the winner with {playersCurrentScoreSorted[0].totalScore} points!
+			{playersTotalScoreSorted[0].name} is the winner with {playersTotalScoreSorted[0].totalScore} points!
 		</div>
 
 		<div class="announcement__score-board">
@@ -19,7 +19,7 @@
 				Rounds {rounds}	
 			</div>
 
-			{#each playersCurrentScoreSorted as player, index}
+			{#each playersTotalScoreSorted as player, index}
 				<div class="announcement__player">
 					<div class="announcement__place"># 
 						{index + 1}
@@ -36,7 +36,7 @@
 			{/each}
 		</div>
 
-		<button class="announcement__button" on:click={handler}>
+		<button class="announcement__button" on:click={handleNewGameClick}>
 			New game
 		</button>
 	</div>
