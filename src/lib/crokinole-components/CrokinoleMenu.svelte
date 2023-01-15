@@ -31,17 +31,9 @@
 		Previous Games
 	</button>
 
-	<div class="menu__score-goal-container">
-		<div class="menu__score-goal-header">Score Goal</div>
-
-		<input 
-			type="number" 
-			class="menu__score-goal-input"
-			value={scoreGoal} 
-			on:input={handleScoreNumberInput}
-		>
+	<div class="menu__link">
+		<a href="https://www.paypal.com/paypalme/0mar0mrani" target=”_blank”>Buy Me A Coffee</a>
 	</div>
-
 </div>
 
 <style>
@@ -49,6 +41,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly;
+		align-items: center;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -65,6 +58,7 @@
 		transform: translateX(0);
 	}
 
+	.menu__link,
 	.menu__button {
 		padding: 1rem 2rem;
 		background-color: #212427;
@@ -74,7 +68,13 @@
 		align-self: center;
 	}
 
+	.menu__link a {
+		color: inherit;
+		text-decoration: none;
+	}
+
 	.menu__score-goal-container {
+		max-width: 30rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
