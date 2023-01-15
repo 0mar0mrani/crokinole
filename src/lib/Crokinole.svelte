@@ -436,8 +436,8 @@
 	/>
 
 	<CrokinoleAnnouncement
-		playersCurrentScoreSorted={state.playersTotalScoreSorted}
-		handler={handleNewGameClick}
+		playersTotalScoreSorted={state.playersTotalScoreSorted}
+		{handleNewGameClick}
 		isWinner={state.isWinner}
 		rounds={state.rounds}
 	/>
