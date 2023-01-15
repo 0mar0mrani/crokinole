@@ -8,6 +8,17 @@
 </script>
 
 <div class={`menu ${isMenuOpen ? 'menu--open' : ''}`}>
+	<div class="menu__score-goal-container">
+		<div class="menu__score-goal-header">Score Goal</div>
+
+		<input 
+			type="number" 
+			class="menu__score-goal-input"
+			value={scoreGoal} 
+			on:input={handleScoreNumberInput}
+		>
+	</div>
+
 	<button class="menu__button" on:click={handleResetGameClick}>
 		Reset Game
 	</button>
