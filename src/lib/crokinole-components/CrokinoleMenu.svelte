@@ -59,6 +59,7 @@
 		transform: translateX(0);
 	}
 
+	.menu__link,
 	.menu__button {
 		padding: 1rem 2rem;
 		background-color: #212427;
