@@ -12,7 +12,8 @@
 
 	let state: StateType = {
 		players: [],
-		playersScoreSorted: [],
+		playersCurrentScoreSorted: [],
+		playersTotalScoreSorted: [],
 		currentPlayer: 0,
 		isMenuOpen: false,
 		isPreviousGamesOpen: false,
@@ -54,8 +55,9 @@
 			} else {
 				numberInputEl.focus();
 			}
-
+			
 			if (state.isWinner) {
+				sortPlayersByTotalScore();
 				storePlayedGameToPreviousGames();
 			}
 			
@@ -166,11 +168,11 @@
 		}
 
 		function returnGetPlayerWithSmallestCurrentScore(): number | undefined {
-			const playersScoreSorted = state.playersScoreSorted;
+			const playersCurrentScoreSorted = state.playersCurrentScoreSorted;
 
-			for (let index = playersScoreSorted.length - 1; index >= 0; index -= 1) {
-				if (playersScoreSorted[index].isPlaying) {
-					return playersScoreSorted[index].currentScore;
+			for (let index = playersCurrentScoreSorted.length - 1; index >= 0; index -= 1) {
+				if (playersCurrentScoreSorted[index].isPlaying) {
+					return playersCurrentScoreSorted[index].currentScore;
 				}
 			}
 		}
@@ -236,9 +238,9 @@
 	}
 
 	function sortPlayersByCurrentScore() {
-		state.playersScoreSorted = [...state.players];
+		state.playersCurrentScoreSorted = [...state.players];
 
-		state.playersScoreSorted.sort((a: PlayerType, b: PlayerType) => {
+		state.playersCurrentScoreSorted.sort((a: PlayerType, b: PlayerType) => {
 			if (a.currentScore > b.currentScore) {
 				return -1;
 			}
@@ -249,8 +251,22 @@
 		})
 	}
 
+	function sortPlayersByTotalScore() {
+		state.playersTotalScoreSorted = [...state.players];
+
+		state.playersTotalScoreSorted.sort((a: PlayerType, b: PlayerType) => {
+			if (a.totalScore > b.totalScore) {
+				return -1;
+			}
+
+			if (a.totalScore < b.totalScore) {
+				return 1;
+			}
+		})
+	}
+
 	function storePlayedGameToPreviousGames() {
-		const copyPlayersScoredSorted = JSON.stringify(state.playersScoreSorted);
+		const copyPlayersScoredSorted = JSON.stringify(state.playersTotalScoreSorted);
 
 		const currentTime = Date.now();
 		const date = new Date(currentTime);
@@ -276,7 +292,7 @@
 	}
 
 	function checkIfWinner() {
-		const playerWithBiggestScore = state.playersScoreSorted[0].totalScore;
+		const playerWithBiggestScore = state.playersCurrentScoreSorted[0].totalScore;
 
 		if (playerWithBiggestScore >= state.scoreGoal) {
 			checkIfMultipleWinners();
@@ -289,17 +305,17 @@
 		}
 
 		function checkIfMultipleWinners() {
-			const playersScoreSorted = state.playersScoreSorted;
+			const playersCurrentScoreSorted = state.playersCurrentScoreSorted;
 			state.winner = [];
 
-			for (let index = 0; index < playersScoreSorted.length; index += 1) {
-				if (playersScoreSorted[index].totalScore === playerWithBiggestScore) {
-					state.winner.push(playersScoreSorted[index])
+			for (let index = 0; index < playersCurrentScoreSorted.length; index += 1) {
+				if (playersCurrentScoreSorted[index].totalScore === playerWithBiggestScore) {
+					state.winner.push(playersCurrentScoreSorted[index])
 				} else {
 					setIsPlayingToFalse();
 
 					function setIsPlayingToFalse() {
-						const loserID = playersScoreSorted[index].id;
+						const loserID = playersCurrentScoreSorted[index].id;
 
 						for (const player of state.players) {
 							if (player.id === loserID) {
@@ -420,7 +436,7 @@
 	/>
 
 	<CrokinoleAnnouncement
-		playersScoreSorted={state.playersScoreSorted}
+		playersCurrentScoreSorted={state.playersTotalScoreSorted}
 		handler={handleNewGameClick}
 		isWinner={state.isWinner}
 		rounds={state.rounds}
