@@ -5,7 +5,6 @@
 <div class="container">	
 	<Crokinole/>
 
-	
 	<div class="crokinole__board">
 		<div class="crokinole__inner-circle"></div>
 		<div class="crokinole__outer-circle"></div>

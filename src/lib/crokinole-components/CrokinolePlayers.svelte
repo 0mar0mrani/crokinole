@@ -2,10 +2,10 @@
 	import CloseSVG from "../../assets/svg/CloseSVG.svelte";
 	import type { PlayerType } from '../../types';
 	
-	export let handleAddPlayerClick: void;
-	export let handleAddPlayerKeydown: void;
-	export let handleStartGameClick: void;
-	export let handleDeleteClick: void;
+	export let handleAddPlayerClick: (event: MouseEvent) => void;
+	export let handleAddPlayerKeydown: (event: KeyboardEvent) => void;
+	export let handleStartGameClick: (event: MouseEvent) => void;
+	export let handleDeleteClick: (event: MouseEvent) => void;
 	export let players: PlayerType[];
 	export let isAddPlayersOpen: boolean;
 	export let isEnoughPlayers: boolean;

@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let handleResetGameClick: void;
-	export let handleChangePlayersClick: void;
-	export let handleScoreNumberInput: void;
-	export let handlePreviousScoreClick: void;
+	export let handleResetGameClick: (event: MouseEvent) => void;
+	export let handleChangePlayersClick: (event: MouseEvent) => void;
+	export let handleScoreNumberInput: (event: InputEvent) => void;
+	export let handlePreviousScoreClick: (event: MouseEvent) => void;
 	export let isMenuOpen: boolean;
 	export let scoreGoal: number;
 </script>

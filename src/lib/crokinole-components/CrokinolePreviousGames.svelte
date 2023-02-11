@@ -4,7 +4,7 @@
 
 	export let isPreviousGamesOpen: boolean;
 	export let previousGames: GameType[];
-	export let handleBackClick: void;
+	export let handleBackClick: (event: MouseEvent) => void;
 </script>
 
 {#if isPreviousGamesOpen}

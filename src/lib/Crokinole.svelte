@@ -1,7 +1,7 @@
 <script lang="ts">
    import { browser } from '$app/environment';
-	import CSSbase from './global-css/base.svelte';
-	import CSSreset from './global-css/reset.svelte';
+	import './global-css/base.svelte';
+	import './global-css/reset.svelte';
 	import CrokinoleMenu from './crokinole-components/CrokinoleMenu.svelte';
 	import CrokinoleAnnouncement from './crokinole-components/CrokinoleAnnouncement.svelte';
 	import CrokinolePlayers from './crokinole-components/CrokinolePlayers.svelte';
@@ -101,7 +101,7 @@
 		state.isAddPlayersOpen = false;
 	}
 
-	function handleDeleteClick(event: PointerEvent) {
+	function handleDeleteClick(event: MouseEvent) {
 		const target = event.currentTarget as HTMLButtonElement;
 
 		if (target.parentElement) {
@@ -118,7 +118,7 @@
 		const target = event.target as HTMLInputElement;
 
 		if (target) {
-			const inputValue: number  = Number(target.value);
+			const inputValue: number = Number(target.value);
 
 			if (inputValue > 0) {
 				state.scoreGoal = inputValue;
@@ -126,7 +126,7 @@
 		}
 	}
 
-	function handlePreviousScoreClick(event: PointerEvent) {
+	function handlePreviousScoreClick(event: MouseEvent) {
 		const target = event.target as HTMLButtonElement;
 
 		if (target) {
@@ -134,7 +134,7 @@
 		}
 	}
 
-	function handleBackClick(event: PointerEvent) {
+	function handleBackClick(event: MouseEvent) {
 		const target = event.target as HTMLButtonElement;
 
 		if (target) {
@@ -173,7 +173,7 @@
 			for (let index = playersCurrentScoreSorted.length - 1; index >= 0; index -= 1) {
 				if (playersCurrentScoreSorted[index].isPlaying) {
 					return playersCurrentScoreSorted[index].currentScore;
-				}
+				} 
 			}
 		}
 	}
@@ -243,10 +243,10 @@
 		state.playersCurrentScoreSorted.sort((a: PlayerType, b: PlayerType) => {
 			if (a.currentScore > b.currentScore) {
 				return -1;
-			}
-
-			if (a.currentScore < b.currentScore) {
+			} else if (a.currentScore < b.currentScore) {
 				return 1;
+			} else {
+				return 0;
 			}
 		})
 	}
@@ -257,10 +257,10 @@
 		state.playersTotalScoreSorted.sort((a: PlayerType, b: PlayerType) => {
 			if (a.totalScore > b.totalScore) {
 				return -1;
-			}
-
-			if (a.totalScore < b.totalScore) {
+			} else if (a.totalScore < b.totalScore) {
 				return 1;
+			} else {
+				return 0;
 			}
 		})
 	}

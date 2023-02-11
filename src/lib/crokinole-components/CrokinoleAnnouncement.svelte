@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PlayerType } from '../../types';
 
-	export let handleNewGameClick: void;
+	export let handleNewGameClick: (event: MouseEvent) => void;
 	export let playersTotalScoreSorted: PlayerType[];
 	export let isWinner: boolean;
 	export let rounds: number;
