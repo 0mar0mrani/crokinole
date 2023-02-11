@@ -396,10 +396,9 @@
 	<div class="crokinole__bottom-section">
 		{#if state.isRoundFinished}
 			<button
-			class="crokinole__button crokinole__button--bottom"
-			on:click={handleNewRoundClick}>
-				New Round
-			</button>
+				class="crokinole__button crokinole__button--bottom"
+				on:click={handleNewRoundClick}
+			>New Round</button>
 		{/if}
 		
 		{#if !state.isRoundFinished}
@@ -418,9 +417,11 @@
 						step="5"
 					>
 
-					<button class={`crokinole__button ${scoreInput !== '' ? '' : 'crokinole__button--deactivated'}`} on:click={handleAddClick}>
-						Add
-					</button>
+					<button 
+						class="crokinole__button" 
+						class:crokinole__button--deactivated={scoreInput === ''}
+						on:click={handleAddClick}
+					>Add</button>
 				</div>
 			</div>
 		{/if}
@@ -480,11 +481,6 @@
 		height: 4rem;
 		border: none;
 		z-index: 100;
-	}
-	.crokinole__menu-item-button {
-		font-size: 2rem;
-		border: none;
-		cursor: pointer;
 	}
 
 	.crokinole__header-round-container {

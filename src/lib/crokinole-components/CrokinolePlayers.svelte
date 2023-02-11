@@ -24,9 +24,10 @@
 						{player.name}
 					</div>
 
-					<button class="players__delete-button" on:click={handleDeleteClick}>
-						<CloseSVG/>
-					</button>
+					<button 
+						class="players__delete-button" 
+						on:click={handleDeleteClick}
+					><CloseSVG/></button>
 				</div>
 			{/each}
 		</div>
@@ -40,16 +41,18 @@
 				bind:this={nameInputElChild}
 			>
 
-			<button class={`crokinole__button ${nameInputChild !== '' && players.length < 4 ? '' : 'players__button--deactivated'}`} on:click={handleAddPlayerClick}>
-				Add player
-			</button>
+			<button 
+				class="crokinole__button"
+				class:players__button--deactivated={nameInputChild === '' || players.length >= 4} 
+				on:click={handleAddPlayerClick}
+			>Add player</button>
 		</div>
 
 		<button
-			class={`crokinole__button ${!isEnoughPlayers ? 'players__button--deactivated' : ''}`}
+			class="crokinole__button"
+			class:players__button--deactivated={!isEnoughPlayers}
 			on:click={handleStartGameClick}
-			>Start Game
-		</button>
+		>Start Game</button>
 	</div>
 {/if}
 

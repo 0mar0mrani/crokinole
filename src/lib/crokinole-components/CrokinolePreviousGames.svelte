@@ -19,7 +19,10 @@
 			{/each}
 		</div>
 
-		<button class="previous__button" on:click={handleBackClick}>Back</button>
+		<button 
+			class="previous__button" 
+			on:click={handleBackClick}
+		>Back</button>
 	</div>
 {/if}
 

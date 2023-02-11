@@ -2,17 +2,15 @@
 	import type { GameType } from '../../types';
 
 	export let previousGame: GameType;
-	let isGameOpen = false;
+	let isCollapsed = true;
 
 	function handlePreviousClick() {
-		isGameOpen = !isGameOpen;
+		isCollapsed = !isCollapsed;
 	}
 </script>
 
 <div class="previous">
-	<button 
-		on:click={handlePreviousClick}
-		class="previous__button">
+	<button on:click={handlePreviousClick} class="previous__button">
 
 		<div>
 			{previousGame.score[0].name}
@@ -27,7 +25,7 @@
 		</div>
 	</button>
 
-	{#if isGameOpen}
+	{#if !isCollapsed}
 		<div class="previous__more-info">
 			<div class="previous__rounds-time-container">
 				<div class="previous__rounds">

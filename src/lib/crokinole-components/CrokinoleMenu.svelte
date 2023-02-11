@@ -7,7 +7,7 @@
 	export let scoreGoal: number;
 </script>
 
-<div class={`menu ${isMenuOpen ? 'menu--open' : ''}`}>
+<div class="menu" class:menu--open={isMenuOpen}>
 	<div class="menu__score-goal-container">
 		<div class="menu__score-goal-header">Score Goal</div>
 
@@ -33,6 +33,7 @@
 
 	<div class="menu__about">
 		<p>Developed by Omar Omrani </p>
+
 		<a href="https://www.paypal.com/paypalme/0mar0mrani" target=”_blank”>Buy Me A Coffee</a>
 	</div>
 </div>
@@ -59,7 +60,6 @@
 		transform: translateX(0);
 	}
 
-	.menu__link,
 	.menu__button {
 		padding: 1rem 2rem;
 		background-color: #212427;
