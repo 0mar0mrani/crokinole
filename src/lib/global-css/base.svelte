@@ -8,4 +8,10 @@
 		font-family: 'Roboto', sans-serif;
 		color: #212427;
 	}
+
+	@media screen and (max-width: 340px) {
+		:global(html) {
+			font-size: 2.941vw;
+		}
+	}
 </style>
