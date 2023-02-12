@@ -116,30 +116,19 @@
 
 	function handleScoreNumberInput(event: InputEvent) {
 		const target = event.target as HTMLInputElement;
+		const inputValue: number = Number(target.value);
 
-		if (target) {
-			const inputValue: number = Number(target.value);
-
-			if (inputValue > 0) {
-				state.scoreGoal = inputValue;
-			}
+		if (inputValue > 0) {
+			state.scoreGoal = inputValue;
 		}
 	}
 
 	function handlePreviousScoreClick(event: MouseEvent) {
-		const target = event.target as HTMLButtonElement;
-
-		if (target) {
-			state.isPreviousGamesOpen = true;
-		}
+		state.isPreviousGamesOpen = true;
 	}
 
 	function handleBackClick(event: MouseEvent) {
-		const target = event.target as HTMLButtonElement;
-
-		if (target) {
-			state.isPreviousGamesOpen = false;
-		}
+		state.isPreviousGamesOpen = false;
 	}
 
 	function handleAddPlayerClick() {
